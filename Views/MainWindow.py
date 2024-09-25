@@ -52,21 +52,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
-        self.horizontalLayout_3 = QHBoxLayout()
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.word_group_rename_pushButton = QPushButton(self.groupBox)
-        self.word_group_rename_pushButton.setObjectName(u"word_group_rename_pushButton")
-
-        self.horizontalLayout_3.addWidget(self.word_group_rename_pushButton)
-
-        self.word_group_delete_pushButton = QPushButton(self.groupBox)
-        self.word_group_delete_pushButton.setObjectName(u"word_group_delete_pushButton")
-
-        self.horizontalLayout_3.addWidget(self.word_group_delete_pushButton)
-
-
-        self.verticalLayout.addLayout(self.horizontalLayout_3)
-
         self.word_group_listView = QListView(self.groupBox)
         self.word_group_listView.setObjectName(u"word_group_listView")
 
@@ -133,8 +118,6 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Word Group", None))
         self.word_group_new_pushButton.setText(QCoreApplication.translate("MainWindow", u"New", None))
-        self.word_group_rename_pushButton.setText(QCoreApplication.translate("MainWindow", u"Rename", None))
-        self.word_group_delete_pushButton.setText(QCoreApplication.translate("MainWindow", u"Delete", None))
         self.word_new_pushButton.setText(QCoreApplication.translate("MainWindow", u"New", None))
         self.word_edit_pushButton.setText(QCoreApplication.translate("MainWindow", u"Edit", None))
         self.word_delete_pushButton.setText(QCoreApplication.translate("MainWindow", u"Delete", None))
