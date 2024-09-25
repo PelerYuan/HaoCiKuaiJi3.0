@@ -55,24 +55,6 @@
             </layout>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <item>
-              <widget class="QPushButton" name="word_group_rename_pushButton">
-               <property name="text">
-                <string>Rename</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="word_group_delete_pushButton">
-               <property name="text">
-                <string>Delete</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
             <widget class="QListView" name="word_group_listView"/>
            </item>
           </layout>
