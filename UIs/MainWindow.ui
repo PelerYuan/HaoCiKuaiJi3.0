@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>HaoCiKuaiJi3.0</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -43,35 +43,6 @@
            <string>Word Group</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
-             <item>
-              <widget class="QPushButton" name="word_group_new_pushButton">
-               <property name="text">
-                <string>New</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <item>
-              <widget class="QPushButton" name="word_group_rename_pushButton">
-               <property name="text">
-                <string>Rename</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="word_group_delete_pushButton">
-               <property name="text">
-                <string>Delete</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
            <item>
             <widget class="QListView" name="word_group_listView"/>
            </item>
@@ -130,8 +101,33 @@
      <height>23</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuGroup">
+    <property name="title">
+     <string>Group</string>
+    </property>
+    <addaction name="word_group_new_action"/>
+    <addaction name="separator"/>
+    <addaction name="word_group_rename_action"/>
+    <addaction name="word_group_delete_action"/>
+   </widget>
+   <addaction name="menuGroup"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="word_group_new_action">
+   <property name="text">
+    <string>New</string>
+   </property>
+  </action>
+  <action name="word_group_rename_action">
+   <property name="text">
+    <string>Rename</string>
+   </property>
+  </action>
+  <action name="word_group_delete_action">
+   <property name="text">
+    <string>Delete</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

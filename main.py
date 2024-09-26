@@ -10,4 +10,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     apply_stylesheet(app, theme='dark_blue.xml')
     main_window = MainWindow()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
