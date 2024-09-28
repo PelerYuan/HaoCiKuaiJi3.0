@@ -13,6 +13,13 @@ class WordGroup:
     def delete_word(self, index: int):
         del self.__word_data[index]
 
+    def edit_word(self, index: int, **word_data):
+        word = self.__create_word(**word_data)
+        self.__word_data[index] = word
+
+    def get_word(self, index: int):
+        return self.__word_data[index]
+
     def get_all_word(self):
         return self.__word_data
 

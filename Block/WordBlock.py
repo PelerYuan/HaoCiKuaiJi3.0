@@ -1,7 +1,9 @@
-from PySide6.QtCore import Qt, QStringListModel
+from PySide6.QtCore import Qt, QStringListModel, QModelIndex
 from PySide6.QtGui import QStandardItemModel, QStandardItem
 from PySide6.QtWidgets import QInputDialog, QMessageBox, QTableView
 from Functions.WordGroup import *
+from Models.EditWordModel import EditWordModel
+from Views import EditWordDialog
 from Views.MainWindow import Ui_MainWindow
 
 
@@ -28,11 +30,13 @@ class WordBlock:
         self.ui.word_group_listView.clicked.connect(self.word_group_clicked)
         self.ui.word_new_pushButton.clicked.connect(self.word_new)
         self.ui.word_delete_pushButton.clicked.connect(self.word_delete)
+        self.ui.word_tableView.doubleClicked.connect(self.word_double_clicked)
 
     def init(self):
         self.word_group_update()
         self.ui.word_tableView.setSelectionBehavior(QTableView.SelectRows)
         self.ui.word_tableView.resizeColumnsToContents()
+        self.ui.word_tableView.setEditTriggers(QTableView.NoEditTriggers)
 
     def word_group_update(self):
         self.word_group_model.setStringList(get_all_group())
@@ -104,4 +108,16 @@ class WordBlock:
                 self.word_group.delete_word(selected_rows[i] - i)
         self.word_update()
 
-    
+    def word_edit(self, part=None):
+        selected_indexes = self.ui.word_tableView.selectionModel().selectedIndexes()
+        if selected_indexes:
+            row = selected_indexes[0].row()
+            edit_word_dialog = EditWordModel(part, self.word_group.get_word(row),self.ui)
+            result = edit_word_dialog.exec_()
+            if result:
+                self.word_group.edit_word(row, **result)
+        self.word_update()
+
+    def word_double_clicked(self, index: QModelIndex):
+        column = index.column()
+        self.word_edit(['word', 'part', 'meaning', 'example', 'symbol', 'audio'][column])
