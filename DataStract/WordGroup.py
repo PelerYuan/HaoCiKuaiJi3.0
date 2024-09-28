@@ -1,3 +1,5 @@
+import logging
+
 from Functions.CSV import open_csv, write_csv
 
 
@@ -16,6 +18,15 @@ class WordGroup:
     def edit_word(self, index: int, **word_data):
         word = self.__create_word(**word_data)
         self.__word_data[index] = word
+
+    def update_word(self, word_: str, **word_data):
+        print(word_)
+        print(word_data)
+        for i in range(len(self.__word_data)):
+            if self.__word_data[i]['word'] == word_:
+                self.__word_data[i] = word_data
+                return
+        logging.log(logging.ERROR, f'Word not found: {word_}')
 
     def get_word(self, index: int):
         return self.__word_data[index]
