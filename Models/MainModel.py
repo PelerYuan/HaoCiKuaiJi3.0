@@ -1,4 +1,5 @@
 from PySide6.QtCore import QStringListModel, Qt
+from PySide6.QtGui import QStandardItemModel
 from PySide6.QtWidgets import QMainWindow, QInputDialog, QMessageBox, QTableView
 
 from Block.WordBlock import WordBlock
@@ -18,8 +19,6 @@ class MainModel(Ui_MainWindow, QMainWindow):
 
     def init(self):
         self.word_block.init()
-        self.word_tableView.setSelectionBehavior(QTableView.SelectRows)  # 选择整行
-        self.word_tableView.resizeColumnsToContents()
 
     def event_connect(self):
         self.word_block.event_connect()

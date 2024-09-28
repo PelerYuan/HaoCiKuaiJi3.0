@@ -1,19 +1,23 @@
-from Functions.CSV import open_csv
+from Functions.CSV import open_csv, write_csv
 
 
 class WordGroup:
     def __init__(self, group_name: str):
-        self._word_data = open_csv(f'./data/words/{group_name}.csv')
+        self.file_path = f'./data/words/{group_name}.csv'
+        self.__word_data = open_csv(self.file_path)
 
-    def _add_word(self, word: str, **word_data):
+    def add_word(self, word: str, **word_data):
         new_word = self.__create_word(word, **word_data)
-        self._word_data.append(new_word)
+        self.__word_data.append(new_word)
 
-    def _get_all_words(self):
-        words = []
-        for data in self._word_data:
-            words.append(data['word'])
-        return words
+    def delete_word(self, index: int):
+        del self.__word_data[index]
+
+    def get_all_word(self):
+        return self.__word_data
+
+    def save_data(self):
+        write_csv(self.file_path, self.__word_data)
 
     def __create_word(self, word: str, part: str = "", meaning: str = "", example: str = "", symbol: str = "",
                       audio: str = ""):
