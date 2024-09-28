@@ -31,6 +31,7 @@ class WordBlock:
         self.ui.word_new_pushButton.clicked.connect(self.word_new)
         self.ui.word_delete_pushButton.clicked.connect(self.word_delete)
         self.ui.word_tableView.doubleClicked.connect(self.word_double_clicked)
+        self.ui.word_edit_pushButton.clicked.connect(self.word_edit)
 
     def init(self):
         self.word_group_update()
@@ -108,7 +109,7 @@ class WordBlock:
                 self.word_group.delete_word(selected_rows[i] - i)
         self.word_update()
 
-    def word_edit(self, part=None):
+    def word_edit(self, part=False):
         selected_indexes = self.ui.word_tableView.selectionModel().selectedIndexes()
         if selected_indexes:
             row = selected_indexes[0].row()

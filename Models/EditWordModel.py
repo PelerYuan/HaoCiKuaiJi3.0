@@ -6,7 +6,7 @@ from Views.EditWordDialog import Ui_Dialog
 
 
 class EditWordModel(Ui_Dialog, QDialog):
-    def __init__(self, part: str, word_data:dict, parent=None):
+    def __init__(self, part: str | bool, word_data: dict, parent=None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
         self.show()
@@ -43,7 +43,7 @@ class EditWordModel(Ui_Dialog, QDialog):
         elif self.part == "audio":
             self.tabWidget.setCurrentIndex(3)
             self.audio_lineEdit.setFocus()
-        elif self.part is None:
+        elif self.part is False:
             ...
         else:
             logging.log(logging.ERROR, f"Unknown option for word edit: {self.part}")
