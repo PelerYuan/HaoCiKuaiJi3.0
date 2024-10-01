@@ -24,6 +24,7 @@ class TestBlock:
         test_dialog = TestWordModel(group_name, group.get_meaning_dict(), self.ui)
         result = test_dialog.exec_()
         if result:
+            new_test_data(result)
             test_result_dialog = TestResultModel(result, self.ui)
             test_result_dialog.exec_()
 
