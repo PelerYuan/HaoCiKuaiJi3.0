@@ -134,3 +134,4 @@ class WordBlock:
 
     def close(self):
         self.word_search_thread.stop()
+        self.word_search_thread.wait()

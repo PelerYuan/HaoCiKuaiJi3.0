@@ -20,11 +20,13 @@ class WordSearchThread(QThread):
     def run(self):
         while self.__running:
             word = self.__queue.get()
-            print(word)
-            result = search_word(word)
-            print(result)
-            if result:
-                self.task_finished.emit(result)
+            if word:
+                print(word)
+                result = search_word(word)
+                print(result)
+                if result:
+                    self.task_finished.emit(result)
 
     def stop(self):
         self.__running = False
+        self.__queue.put(None)

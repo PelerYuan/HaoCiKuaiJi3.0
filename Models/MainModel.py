@@ -23,5 +23,6 @@ class MainModel(Ui_MainWindow, QMainWindow):
     def event_connect(self):
         self.word_block.event_connect()
 
-    def close(self):
+    def closeEvent(self, event):
         self.word_block.close()
+        super().closeEvent(event)
