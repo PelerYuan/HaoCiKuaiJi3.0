@@ -2,6 +2,7 @@ from Views.MainWindow import Ui_MainWindow
 from Functions.WordGroup import *
 from Functions.WordTest import *
 
+
 class TestBlock:
     def __init__(self, ui: Ui_MainWindow):
         self.ui = ui
