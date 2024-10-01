@@ -39,6 +39,5 @@ class TestBlock:
             self.ui.word_tableWidget.setItem(row_count, 0, QTableWidgetItem(test))
             self.ui.word_tableWidget.setItem(row_count, 1, QTableWidgetItem())
 
-
     def close(self):
         ...
