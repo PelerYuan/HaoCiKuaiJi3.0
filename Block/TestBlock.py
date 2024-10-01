@@ -1,3 +1,5 @@
+from PySide6.QtWidgets import QTableWidgetItem
+
 from Models.TestResultModel import TestResultModel
 from Models.TestWordModel import TestWordModel
 from Views.MainWindow import Ui_MainWindow
@@ -24,9 +26,19 @@ class TestBlock:
         test_dialog = TestWordModel(group_name, group.get_meaning_dict(), self.ui)
         result = test_dialog.exec_()
         if result:
-            new_test_data(result)
-            test_result_dialog = TestResultModel(result, self.ui)
+            word_test = new_test_data(result)
+            test_result_dialog = TestResultModel(word_test, self.ui)
             test_result_dialog.exec_()
+
+    def load_test_history(self):
+        self.ui.word_tableWidget.setRowCount(0)
+        self.ui.word_tableWidget.clearContents()
+        for test in get_all_test():
+            row_count = self.ui.word_tableWidget.rowCount()
+            self.ui.word_tableWidget.insertRow(row_count)
+            self.ui.word_tableWidget.setItem(row_count, 0, QTableWidgetItem(test))
+            self.ui.word_tableWidget.setItem(row_count, 1, QTableWidgetItem())
+
 
     def close(self):
         ...
