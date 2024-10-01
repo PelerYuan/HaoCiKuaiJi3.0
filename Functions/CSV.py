@@ -17,7 +17,8 @@ def open_csv(file_path:str):
 
 def write_csv(file_path:str, data_list:list):
     with open(file_path, mode='w', newline='', encoding='utf-8') as file:
-        fieldnames = data_list[0].keys()
-        csv_writer = csv.DictWriter(file, fieldnames=fieldnames)
-        csv_writer.writeheader()
-        csv_writer.writerows(data_list)
+        if data_list:
+            fieldnames = data_list[0].keys()
+            csv_writer = csv.DictWriter(file, fieldnames=fieldnames)
+            csv_writer.writeheader()
+            csv_writer.writerows(data_list)

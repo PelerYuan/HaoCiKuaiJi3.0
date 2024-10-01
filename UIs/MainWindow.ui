@@ -148,6 +148,9 @@
     <addaction name="separator"/>
     <addaction name="word_group_rename_action"/>
     <addaction name="word_group_delete_action"/>
+    <addaction name="separator"/>
+    <addaction name="word_group_refresh_action"/>
+    <addaction name="word_group_update_data_action"/>
    </widget>
    <addaction name="menuGroup"/>
   </widget>
@@ -165,6 +168,16 @@
   <action name="word_group_delete_action">
    <property name="text">
     <string>Delete</string>
+   </property>
+  </action>
+  <action name="word_group_refresh_action">
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+  </action>
+  <action name="word_group_update_data_action">
+   <property name="text">
+    <string>Update Data</string>
    </property>
   </action>
  </widget>

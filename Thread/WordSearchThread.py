@@ -1,4 +1,5 @@
 import queue
+import time
 
 from PySide6.QtCore import QThread, Signal
 
@@ -26,6 +27,7 @@ class WordSearchThread(QThread):
                 print(result)
                 if result:
                     self.task_finished.emit(result)
+                    time.sleep(0.1)
 
     def stop(self):
         self.__running = False

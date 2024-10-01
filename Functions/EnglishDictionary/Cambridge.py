@@ -65,5 +65,5 @@ def search_word(word: str):
 def save_audio(word: str, url: str):
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
-        with open(f'./data/audio{word}.mp3', 'wb') as f:
+        with open(f'./data/audio/{word}.mp3', 'wb') as f:
             f.write(response.content)

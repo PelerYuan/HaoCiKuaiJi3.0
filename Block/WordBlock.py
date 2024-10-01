@@ -1,6 +1,9 @@
-from PySide6.QtCore import Qt, QStringListModel, QModelIndex
+from PySide6.QtCore import Qt, QStringListModel, QModelIndex, QUrl
 from PySide6.QtGui import QStandardItemModel, QStandardItem
-from PySide6.QtWidgets import QInputDialog, QMessageBox, QTableView, QTableWidget, QTableWidgetItem
+from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
+from PySide6.QtWidgets import QInputDialog, QMessageBox, QTableView, QTableWidget, QTableWidgetItem, QPushButton
+import pygame
+
 from Functions.WordGroup import *
 from Models.EditWordModel import EditWordModel
 from Thread.WordSearchThread import WordSearchThread
@@ -22,10 +25,15 @@ class WordBlock:
 
         self.word_group: None | WordGroup = None
 
+        pygame.init()
+        pygame.mixer.init()
+
     def event_connect(self):
         self.ui.word_group_new_action.triggered.connect(self.word_group_new)
         self.ui.word_group_delete_action.triggered.connect(self.word_group_delete)
         self.ui.word_group_rename_action.triggered.connect(self.word_group_rename)
+        self.ui.word_group_refresh_action.triggered.connect(self.word_group_refresh)
+        self.ui.word_group_update_data_action.triggered.connect(self.word_group_update_data)
         self.word_group_model.dataChanged.connect(self.word_group_changed)
         self.ui.word_group_listView.clicked.connect(self.word_group_clicked)
         self.ui.word_new_pushButton.clicked.connect(self.word_new)
@@ -64,6 +72,16 @@ class WordBlock:
         selected_index = self.ui.word_group_listView.selectedIndexes()[0]
         self.ui.word_group_listView.edit(selected_index)
 
+    def word_group_refresh(self):
+        if self.word_group:
+            self.word_update()
+
+    def word_group_update_data(self):
+        if self.word_group:
+            for word in self.word_group.get_all_word():
+                self.word_search_thread.add_word(word['word'])
+
+
     def word_group_changed(self, top_left, bottom_right, roles):
         if self.word_group_select:
             if Qt.EditRole in roles:
@@ -77,17 +95,22 @@ class WordBlock:
         self.word_update()
 
     def word_update(self):
-        if self.word_group.get_all_word():
-            self.word_group.save_data()
         self.ui.word_tableWidget.setRowCount(0)
         self.ui.word_tableWidget.clearContents()
         for word in self.word_group.get_all_word():
-            row_count = self.ui.word_tableWidget.rowCount()
-            self.ui.word_tableWidget.insertRow(row_count)
-            self.ui.word_tableWidget.setItem(row_count, 0, QTableWidgetItem(word['word']))
-            self.ui.word_tableWidget.setItem(row_count, 1, QTableWidgetItem(word['part']))
-            self.ui.word_tableWidget.setItem(row_count, 2, QTableWidgetItem(word['meaning']))
-            self.ui.word_tableWidget.setItem(row_count, 3, QTableWidgetItem(word['example']))
+            self.word_insert(word)
+
+    def word_insert(self, word_data: dict):
+        row_count = self.ui.word_tableWidget.rowCount()
+        self.ui.word_tableWidget.insertRow(row_count)
+        self.ui.word_tableWidget.setItem(row_count, 0, QTableWidgetItem(word_data['word']))
+        self.ui.word_tableWidget.setItem(row_count, 1, QTableWidgetItem(word_data['part']))
+        self.ui.word_tableWidget.setItem(row_count, 2, QTableWidgetItem(word_data['meaning']))
+        self.ui.word_tableWidget.setItem(row_count, 3, QTableWidgetItem(word_data['example']))
+
+        play_button = QPushButton(f"Play {word_data['symbol']}", self.ui)
+        play_button.clicked.connect(lambda: self.word_play_audio(word_data['word']))
+        self.ui.word_tableWidget.setCellWidget(row_count, 4, play_button)
 
     def word_new(self):
         while True:
@@ -101,6 +124,7 @@ class WordBlock:
                     QMessageBox.warning(self.ui, "Warning", "Please enter the word")
             else:
                 break
+        self.word_group.save_data()
         self.word_update()
 
     def word_delete(self):
@@ -109,6 +133,7 @@ class WordBlock:
             selected_rows = sorted(set(index.row() for index in selected_indexes))
             for i in range(len(selected_rows)):
                 self.word_group.delete_word(selected_rows[i] - i)
+        self.word_group.save_data()
         self.word_update()
 
     def word_edit(self, part: str | bool = False):
@@ -119,6 +144,7 @@ class WordBlock:
             result = edit_word_dialog.exec_()
             if result:
                 self.word_group.edit_word(row, **result)
+        self.word_group.save_data()
         self.word_update()
 
     def word_double_clicked(self, index: QModelIndex):
@@ -126,9 +152,13 @@ class WordBlock:
         self.word_edit(['word', 'part', 'meaning', 'example', 'symbol', 'audio'][column])
 
     def word_search_finished(self, data: dict):
-        print(data)
         self.word_group.update_word(data['word'], **data)
+        self.word_group.save_data()
         self.word_update()
+
+    def word_play_audio(self, word: str):
+        pygame.mixer.music.load(f'./data/audio/{word}.mp3')
+        pygame.mixer.music.play()
 
     def close(self):
         self.word_search_thread.stop()
