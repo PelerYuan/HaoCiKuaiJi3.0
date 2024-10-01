@@ -99,6 +99,8 @@ class WordBlock:
                 else:
                     break
             self.word_group_update()
+            for word in WordGroup(name).get_all_word():
+                self.word_search_thread.add_word(word['word'])
 
     def word_group_changed(self, top_left, bottom_right, roles):
         if self.word_group_select:
