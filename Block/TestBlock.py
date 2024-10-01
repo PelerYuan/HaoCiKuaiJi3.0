@@ -1,3 +1,4 @@
+from Models.TestResultModel import TestResultModel
 from Models.TestWordModel import TestWordModel
 from Views.MainWindow import Ui_MainWindow
 from Functions.WordGroup import *
@@ -23,7 +24,8 @@ class TestBlock:
         test_dialog = TestWordModel(group_name, group.get_meaning_dict(), self.ui)
         result = test_dialog.exec_()
         if result:
-            print(result)
+            test_result_dialog = TestResultModel(result, self.ui)
+            test_result_dialog.exec_()
 
     def close(self):
         ...
