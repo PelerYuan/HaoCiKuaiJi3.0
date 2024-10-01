@@ -16,10 +16,12 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QGroupBox, QHBoxLayout, QHeaderView,
-    QListView, QMainWindow, QMenu, QMenuBar,
-    QPushButton, QSizePolicy, QStatusBar, QTabWidget,
-    QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QCommandLinkButton, QGroupBox,
+    QHBoxLayout, QHeaderView, QLabel, QListView,
+    QMainWindow, QMenu, QMenuBar, QPushButton,
+    QSizePolicy, QSpacerItem, QStatusBar, QTabWidget,
+    QTableWidget, QTableWidgetItem, QTextBrowser, QToolBox,
+    QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -110,6 +112,79 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QWidget()
         self.tab_2.setObjectName(u"tab_2")
+        self.verticalLayout_4 = QVBoxLayout(self.tab_2)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.toolBox = QToolBox(self.tab_2)
+        self.toolBox.setObjectName(u"toolBox")
+        self.page = QWidget()
+        self.page.setObjectName(u"page")
+        self.page.setGeometry(QRect(0, 0, 1164, 561))
+        self.verticalLayout_5 = QVBoxLayout(self.page)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_5.addItem(self.verticalSpacer_2)
+
+        self.textBrowser = QTextBrowser(self.page)
+        self.textBrowser.setObjectName(u"textBrowser")
+        self.textBrowser.setMouseTracking(False)
+        self.textBrowser.setAcceptDrops(False)
+
+        self.verticalLayout_5.addWidget(self.textBrowser)
+
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer)
+
+        self.label = QLabel(self.page)
+        self.label.setObjectName(u"label")
+
+        self.horizontalLayout_2.addWidget(self.label)
+
+        self.new_test_comboBox = QComboBox(self.page)
+        self.new_test_comboBox.setObjectName(u"new_test_comboBox")
+
+        self.horizontalLayout_2.addWidget(self.new_test_comboBox)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
+
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout_2)
+
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
+
+        self.new_test_commandLinkButton = QCommandLinkButton(self.page)
+        self.new_test_commandLinkButton.setObjectName(u"new_test_commandLinkButton")
+
+        self.horizontalLayout_3.addWidget(self.new_test_commandLinkButton)
+
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer_4)
+
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout_3)
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_5.addItem(self.verticalSpacer)
+
+        self.toolBox.addItem(self.page, u"New Test")
+        self.page_2 = QWidget()
+        self.page_2.setObjectName(u"page_2")
+        self.page_2.setGeometry(QRect(0, 0, 1164, 561))
+        self.toolBox.addItem(self.page_2, u"Page 2")
+
+        self.verticalLayout_4.addWidget(self.toolBox)
+
         self.tabWidget.addTab(self.tab_2, "")
 
         self.verticalLayout_2.addWidget(self.tabWidget)
@@ -136,7 +211,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
+        self.toolBox.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -164,7 +240,19 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem4 = self.word_tableWidget.horizontalHeaderItem(4)
         ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"Audio", None));
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Words", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Tab 2", None))
+        self.textBrowser.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:72pt; font-weight:700;\">New Test!</span></p></body></html>", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"from group:", None))
+        self.new_test_commandLinkButton.setText(QCoreApplication.translate("MainWindow", u"GO", None))
+        self.toolBox.setItemText(self.toolBox.indexOf(self.page), QCoreApplication.translate("MainWindow", u"New Test", None))
+        self.toolBox.setItemText(self.toolBox.indexOf(self.page_2), QCoreApplication.translate("MainWindow", u"Page 2", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Test", None))
         self.menuGroup.setTitle(QCoreApplication.translate("MainWindow", u"Group", None))
     # retranslateUi
 
