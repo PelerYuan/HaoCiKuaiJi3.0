@@ -13,6 +13,7 @@ class TestBlock:
 
     def init(self):
         self.ui.new_test_comboBox.setFocus()
+        self.ui.new_test_comboBox.clear()
         for group in get_all_group():
             self.ui.new_test_comboBox.addItem(group)
 
@@ -21,6 +22,8 @@ class TestBlock:
         group = open_group(group_name)
         test_dialog = TestWordModel(group_name, group.get_meaning_dict(), self.ui)
         result = test_dialog.exec_()
+        if result:
+            print(result)
 
     def close(self):
         ...

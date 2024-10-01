@@ -37,7 +37,7 @@ class WordGroup:
     def get_meaning_dict(self):
         dictionary = {}
         for word in self.__word_data:
-            dictionary[word['word']] = word['meaning'].split('\n')
+            dictionary[word['word']] = word['meaning'].replace('\n', ';;')
         return dictionary
 
     def save_data(self):

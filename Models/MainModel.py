@@ -27,6 +27,13 @@ class MainModel(Ui_MainWindow, QMainWindow):
     def event_connect(self):
         self.word_block.event_connect()
         self.test_block.event_connect()
+        self.tabWidget.currentChanged.connect(self.refresh_tab)
+
+    def refresh_tab(self, index):
+        if index == 0:
+            self.word_block.init()
+        elif index == 1:
+            self.test_block.init()
 
     def closeEvent(self, event):
         self.word_block.close()
