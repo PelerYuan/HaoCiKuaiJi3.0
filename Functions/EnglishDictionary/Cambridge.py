@@ -14,7 +14,8 @@ def list_to_str(l):
         result += str(i) + '\n'
     return result
 
-def search_word(word:str):
+
+def search_word(word: str):
     base_url = 'https://dictionary.cambridge.org/dictionary/english-chinese-simplified/'
     # 发送GET请求
     response = requests.get(base_url + word, headers=headers)
@@ -46,6 +47,8 @@ def search_word(word:str):
         audio_element = soup.find('source', {'type': 'audio/mpeg'})
         audio_link = audio_element['src'] if audio_element else None
 
+        save_audio(word, 'https://dictionary.cambridge.org' + audio_link)
+
         return {
             'word': word,
             'part': list_to_str(parts_of_speech_list),
@@ -57,3 +60,10 @@ def search_word(word:str):
 
     else:
         logging.log(logging.ERROR, f'Error searching word: {word}, status code: {response.status_code}')
+
+
+def save_audio(word: str, url: str):
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        with open(f'./data/audio{word}.mp3', 'wb') as f:
+            f.write(response.content)

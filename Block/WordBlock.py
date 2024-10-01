@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt, QStringListModel, QModelIndex
 from PySide6.QtGui import QStandardItemModel, QStandardItem
-from PySide6.QtWidgets import QInputDialog, QMessageBox, QTableView
+from PySide6.QtWidgets import QInputDialog, QMessageBox, QTableView, QTableWidget, QTableWidgetItem
 from Functions.WordGroup import *
 from Models.EditWordModel import EditWordModel
 from Thread.WordSearchThread import WordSearchThread
@@ -16,10 +16,6 @@ class WordBlock:
         self.ui.word_group_listView.setModel(self.word_group_model)
         self.word_group_select = ""
 
-        self.word_model = QStandardItemModel(0, 0)
-        self.word_model.setHorizontalHeaderLabels(['word', 'part', 'meaning', 'example', 'symbol', 'audio'])
-        self.ui.word_tableView.setModel(self.word_model)
-
         self.word_search_thread = WordSearchThread()
         self.word_search_thread.task_finished.connect(self.word_search_finished)
         self.word_search_thread.start()
@@ -34,13 +30,13 @@ class WordBlock:
         self.ui.word_group_listView.clicked.connect(self.word_group_clicked)
         self.ui.word_new_pushButton.clicked.connect(self.word_new)
         self.ui.word_delete_pushButton.clicked.connect(self.word_delete)
-        self.ui.word_tableView.doubleClicked.connect(self.word_double_clicked)
+        self.ui.word_tableWidget.doubleClicked.connect(self.word_double_clicked)
         self.ui.word_edit_pushButton.clicked.connect(self.word_edit)
 
     def init(self):
         self.word_group_update()
-        self.ui.word_tableView.setSelectionBehavior(QTableView.SelectRows)
-        self.ui.word_tableView.setEditTriggers(QTableView.NoEditTriggers)
+        self.ui.word_tableWidget.setSelectionBehavior(QTableWidget.SelectRows)
+        self.ui.word_tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
 
     def word_group_update(self):
         self.word_group_model.setStringList(get_all_group())
@@ -83,13 +79,15 @@ class WordBlock:
     def word_update(self):
         if self.word_group.get_all_word():
             self.word_group.save_data()
-        self.word_model.clear()
-        self.word_model.setHorizontalHeaderLabels(['word', 'part', 'meaning', 'example', 'symbol', 'audio'])
+        self.ui.word_tableWidget.setRowCount(0)
+        self.ui.word_tableWidget.clearContents()
         for word in self.word_group.get_all_word():
-            row_data = []
-            for key in ['word', 'part', 'meaning', 'example', 'symbol', 'audio']:
-                row_data.append(QStandardItem(word[key]))
-            self.word_model.appendRow(row_data)
+            row_count = self.ui.word_tableWidget.rowCount()
+            self.ui.word_tableWidget.insertRow(row_count)
+            self.ui.word_tableWidget.setItem(row_count, 0, QTableWidgetItem(word['word']))
+            self.ui.word_tableWidget.setItem(row_count, 1, QTableWidgetItem(word['part']))
+            self.ui.word_tableWidget.setItem(row_count, 2, QTableWidgetItem(word['meaning']))
+            self.ui.word_tableWidget.setItem(row_count, 3, QTableWidgetItem(word['example']))
 
     def word_new(self):
         while True:
@@ -106,7 +104,7 @@ class WordBlock:
         self.word_update()
 
     def word_delete(self):
-        selected_indexes = self.ui.word_tableView.selectionModel().selectedIndexes()
+        selected_indexes = self.ui.word_tableWidget.selectionModel().selectedIndexes()
         if selected_indexes:
             selected_rows = sorted(set(index.row() for index in selected_indexes))
             for i in range(len(selected_rows)):
@@ -114,7 +112,7 @@ class WordBlock:
         self.word_update()
 
     def word_edit(self, part: str | bool = False):
-        selected_indexes = self.ui.word_tableView.selectionModel().selectedIndexes()
+        selected_indexes = self.ui.word_tableWidget.selectionModel().selectedIndexes()
         if selected_indexes:
             row = selected_indexes[0].row()
             edit_word_dialog = EditWordModel(part, self.word_group.get_word(row), self.ui)
