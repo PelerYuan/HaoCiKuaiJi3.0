@@ -1,7 +1,8 @@
 from PySide6.QtCore import Qt, QStringListModel, QModelIndex, QUrl
 from PySide6.QtGui import QStandardItemModel, QStandardItem
 from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
-from PySide6.QtWidgets import QInputDialog, QMessageBox, QTableView, QTableWidget, QTableWidgetItem, QPushButton
+from PySide6.QtWidgets import QInputDialog, QMessageBox, QTableView, QTableWidget, QTableWidgetItem, QPushButton, \
+    QFileDialog
 import pygame
 
 from Functions.WordGroup import *
@@ -34,6 +35,7 @@ class WordBlock:
         self.ui.word_group_rename_action.triggered.connect(self.word_group_rename)
         self.ui.word_group_refresh_action.triggered.connect(self.word_group_refresh)
         self.ui.word_group_update_data_action.triggered.connect(self.word_group_update_data)
+        self.ui.word_group_import_2v_action.triggered.connect(self.word_group_import_2v)
         self.word_group_model.dataChanged.connect(self.word_group_changed)
         self.ui.word_group_listView.clicked.connect(self.word_group_clicked)
         self.ui.word_new_pushButton.clicked.connect(self.word_new)
@@ -81,6 +83,22 @@ class WordBlock:
             for word in self.word_group.get_all_word():
                 self.word_search_thread.add_word(word['word'])
 
+    def word_group_import_2v(self):
+        options = QFileDialog.Options()
+        file_name, _ = QFileDialog.getOpenFileName(self.ui, "Open old group file", "", "HaoCiKuaiJi2.0 (*.csv)",
+                                                   options=options)
+        if file_name:
+            while True:
+                name, ok = QInputDialog.getText(self.ui, "Import group", "Enter the group name:")
+                if ok:
+                    if name:
+                        import_old_group(file_name, name)
+                        break
+                    else:
+                        QMessageBox.warning(self.ui, "Warning", "Please enter the name")
+                else:
+                    break
+            self.word_group_update()
 
     def word_group_changed(self, top_left, bottom_right, roles):
         if self.word_group_select:

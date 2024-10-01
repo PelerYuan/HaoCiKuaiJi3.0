@@ -38,6 +38,8 @@ class Ui_MainWindow(object):
         self.word_group_refresh_action.setObjectName(u"word_group_refresh_action")
         self.word_group_update_data_action = QAction(MainWindow)
         self.word_group_update_data_action.setObjectName(u"word_group_update_data_action")
+        self.word_group_import_2v_action = QAction(MainWindow)
+        self.word_group_import_2v_action.setObjectName(u"word_group_import_2v_action")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_2 = QVBoxLayout(self.centralwidget)
@@ -208,6 +210,8 @@ class Ui_MainWindow(object):
         self.menuGroup.addSeparator()
         self.menuGroup.addAction(self.word_group_refresh_action)
         self.menuGroup.addAction(self.word_group_update_data_action)
+        self.menuGroup.addSeparator()
+        self.menuGroup.addAction(self.word_group_import_2v_action)
 
         self.retranslateUi(MainWindow)
 
@@ -225,6 +229,7 @@ class Ui_MainWindow(object):
         self.word_group_delete_action.setText(QCoreApplication.translate("MainWindow", u"Delete", None))
         self.word_group_refresh_action.setText(QCoreApplication.translate("MainWindow", u"Refresh", None))
         self.word_group_update_data_action.setText(QCoreApplication.translate("MainWindow", u"Update Data", None))
+        self.word_group_import_2v_action.setText(QCoreApplication.translate("MainWindow", u"Import 2.0 Group", None))
         self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Word Group ", None))
         self.word_new_pushButton.setText(QCoreApplication.translate("MainWindow", u"New", None))
         self.word_edit_pushButton.setText(QCoreApplication.translate("MainWindow", u"Edit", None))

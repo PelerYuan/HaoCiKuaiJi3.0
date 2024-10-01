@@ -311,6 +311,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <addaction name="separator"/>
     <addaction name="word_group_refresh_action"/>
     <addaction name="word_group_update_data_action"/>
+    <addaction name="separator"/>
+    <addaction name="word_group_import_2v_action"/>
    </widget>
    <addaction name="menuGroup"/>
   </widget>
@@ -338,6 +340,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <action name="word_group_update_data_action">
    <property name="text">
     <string>Update Data</string>
+   </property>
+  </action>
+  <action name="word_group_import_2v_action">
+   <property name="text">
+    <string>Import 2.0 Group</string>
    </property>
   </action>
  </widget>
