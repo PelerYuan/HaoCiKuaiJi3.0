@@ -3,6 +3,7 @@ from PySide6.QtGui import QStandardItemModel, QStandardItem
 from PySide6.QtWidgets import QInputDialog, QMessageBox, QTableView
 from Functions.WordGroup import *
 from Models.EditWordModel import EditWordModel
+from Thread.WordSearchThread import WordSearchThread
 from Views import EditWordDialog
 from Views.MainWindow import Ui_MainWindow
 
@@ -16,9 +17,12 @@ class WordBlock:
         self.word_group_select = ""
 
         self.word_model = QStandardItemModel(0, 0)
-        self.word_model.clear()
         self.word_model.setHorizontalHeaderLabels(['word', 'part', 'meaning', 'example', 'symbol', 'audio'])
         self.ui.word_tableView.setModel(self.word_model)
+
+        self.word_search_thread = WordSearchThread()
+        self.word_search_thread.task_finished.connect(self.word_search_finished)
+        self.word_search_thread.start()
 
         self.word_group: None | WordGroup = None
 
@@ -36,7 +40,6 @@ class WordBlock:
     def init(self):
         self.word_group_update()
         self.ui.word_tableView.setSelectionBehavior(QTableView.SelectRows)
-        self.ui.word_tableView.resizeColumnsToContents()
         self.ui.word_tableView.setEditTriggers(QTableView.NoEditTriggers)
 
     def word_group_update(self):
@@ -84,7 +87,7 @@ class WordBlock:
         self.word_model.setHorizontalHeaderLabels(['word', 'part', 'meaning', 'example', 'symbol', 'audio'])
         for word in self.word_group.get_all_word():
             row_data = []
-            for key in word.keys():
+            for key in ['word', 'part', 'meaning', 'example', 'symbol', 'audio']:
                 row_data.append(QStandardItem(word[key]))
             self.word_model.appendRow(row_data)
 
@@ -94,6 +97,7 @@ class WordBlock:
             if ok:
                 if word:
                     self.word_group.add_word(word)
+                    self.word_search_thread.add_word(word)
                     break
                 else:
                     QMessageBox.warning(self.ui, "Warning", "Please enter the word")
@@ -109,11 +113,11 @@ class WordBlock:
                 self.word_group.delete_word(selected_rows[i] - i)
         self.word_update()
 
-    def word_edit(self, part=False):
+    def word_edit(self, part: str | bool = False):
         selected_indexes = self.ui.word_tableView.selectionModel().selectedIndexes()
         if selected_indexes:
             row = selected_indexes[0].row()
-            edit_word_dialog = EditWordModel(part, self.word_group.get_word(row),self.ui)
+            edit_word_dialog = EditWordModel(part, self.word_group.get_word(row), self.ui)
             result = edit_word_dialog.exec_()
             if result:
                 self.word_group.edit_word(row, **result)
@@ -122,3 +126,11 @@ class WordBlock:
     def word_double_clicked(self, index: QModelIndex):
         column = index.column()
         self.word_edit(['word', 'part', 'meaning', 'example', 'symbol', 'audio'][column])
+
+    def word_search_finished(self, data: dict):
+        print(data)
+        self.word_group.update_word(data['word'], **data)
+        self.word_update()
+
+    def close(self):
+        self.word_search_thread.stop()
