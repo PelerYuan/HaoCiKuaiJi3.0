@@ -143,7 +143,7 @@ class Ui_Dialog(object):
     # setupUi
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"EditWord", None))
+        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Edit Word Data", None))
         self.groupBox.setTitle(QCoreApplication.translate("Dialog", u"Word", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("Dialog", u"Part", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("Dialog", u"Symbol", None))

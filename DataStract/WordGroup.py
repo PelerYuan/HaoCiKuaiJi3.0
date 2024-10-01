@@ -34,6 +34,12 @@ class WordGroup:
     def get_all_word(self):
         return self.__word_data
 
+    def get_meaning_dict(self):
+        dictionary = {}
+        for word in self.__word_data:
+            dictionary[word['word']] = word['meaning'].split('\n')
+        return dictionary
+
     def save_data(self):
         write_csv(self.file_path, self.__word_data)
 

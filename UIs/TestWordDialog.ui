@@ -19,7 +19,7 @@
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>150</height>
+       <height>170</height>
       </size>
      </property>
      <property name="mouseTracking">
@@ -43,7 +43,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QRadioButton" name="radioButton">
+      <widget class="QRadioButton" name="radioButton_1">
        <property name="text">
         <string>RadioButton</string>
        </property>
