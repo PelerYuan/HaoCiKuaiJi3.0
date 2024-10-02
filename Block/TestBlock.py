@@ -1,7 +1,7 @@
 import time
 from datetime import datetime
 
-from PySide6.QtWidgets import QTableWidgetItem
+from PySide6.QtWidgets import QTableWidgetItem, QTableWidget
 
 from Models.TestResultModel import TestResultModel
 from Models.TestWordModel import TestWordModel
@@ -17,8 +17,11 @@ class TestBlock:
     def event_connect(self):
         self.ui.test_new_commandLinkButton.clicked.connect(self.start_new_test)
         self.ui.toolBox.currentChanged.connect(self.init)
+        self.ui.test_history_tableWidget.cellDoubleClicked.connect(self.show_test_result)
 
     def init(self):
+        self.ui.test_history_tableWidget.setSelectionBehavior(QTableWidget.SelectRows)
+        self.ui.test_history_tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
         self.ui.test_new_lineEdit.clear()
         self.ui.test_new_comboBox.setFocus()
         self.ui.test_new_comboBox.clear()
@@ -39,6 +42,11 @@ class TestBlock:
                                      f"{finish_time - begin_time:.2f} s", result)
                 test_result_dialog = TestResultModel(word_test, self.ui)
                 test_result_dialog.exec_()
+
+    def show_test_result(self, row, column):
+        item = self.ui.test_history_tableWidget.item(row, 1)
+        test_result_dialog = TestResultModel(WordTest(item.text()), self.ui)
+        test_result_dialog.exec_()
 
     def load_test_history(self):
         self.ui.test_history_tableWidget.setRowCount(0)

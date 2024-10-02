@@ -8,6 +8,11 @@ class WordTest:
         self.__name = name
         self.file_path = f'./data/test/{name}.json'
         self.__data = open_json(self.file_path)
+        print(self.__data)
+        if self.__data:
+            self.__result = self.__data['result']
+        else:
+            self.__result = {}
 
     def set_data(self, group_name: str, time: str, time_spend: str, result: dict):
         self.__result = result
@@ -34,7 +39,7 @@ class WordTest:
         return words
 
     def get_correct_percentage(self):
-        return self.__data['correct percentage']
+        return float(self.__data['correct percentage'][:-1]) / 100
 
     def __get_correct_percentage(self):
         count = 0
