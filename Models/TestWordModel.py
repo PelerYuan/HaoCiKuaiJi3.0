@@ -4,17 +4,18 @@ import random
 from PySide6.QtGui import QTextCursor
 from PySide6.QtWidgets import QDialog
 
+from DataStract.WordGroup import WordGroup
 from Views.TestWordDialog import Ui_Dialog
 
 
 class TestWordModel(Ui_Dialog, QDialog):
-    def __init__(self, group_name: str, dictionary: dict, parent=None):
+    def __init__(self, group: WordGroup, parent=None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
         self.show()
 
-        self.group_name = group_name
-        self.dictionary = dictionary
+        self.group = group
+        self.dictionary = group.get_meaning_dict()
         self.words = list(self.dictionary.keys())
 
         self.marks = {}
@@ -24,14 +25,14 @@ class TestWordModel(Ui_Dialog, QDialog):
         self.event_connect()
 
     def init(self):
-        self.setWindowTitle(f"Test {self.group_name}")
+        self.setWindowTitle(f"Test {self.group.get_group_name()}")
         self.next_word()
 
     def event_connect(self):
-        self.radioButton_1.clicked.connect(lambda : self.select_answer(self.radioButton_1.text()))
-        self.radioButton_2.clicked.connect(lambda : self.select_answer(self.radioButton_2.text()))
-        self.radioButton_3.clicked.connect(lambda : self.select_answer(self.radioButton_3.text()))
-        self.radioButton_4.clicked.connect(lambda : self.select_answer(self.radioButton_4.text()))
+        self.radioButton_1.clicked.connect(lambda: self.select_answer(self.radioButton_1.text()))
+        self.radioButton_2.clicked.connect(lambda: self.select_answer(self.radioButton_2.text()))
+        self.radioButton_3.clicked.connect(lambda: self.select_answer(self.radioButton_3.text()))
+        self.radioButton_4.clicked.connect(lambda: self.select_answer(self.radioButton_4.text()))
 
     def next_word(self):
         self.word = random.choice(self.words)

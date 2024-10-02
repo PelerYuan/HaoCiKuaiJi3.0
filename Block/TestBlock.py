@@ -1,3 +1,6 @@
+import time
+from datetime import datetime
+
 from PySide6.QtWidgets import QTableWidgetItem
 
 from Models.TestResultModel import TestResultModel
@@ -12,32 +15,44 @@ class TestBlock:
         self.ui = ui
 
     def event_connect(self):
-        self.ui.new_test_commandLinkButton.clicked.connect(self.start_new_test)
+        self.ui.test_new_commandLinkButton.clicked.connect(self.start_new_test)
+        self.ui.toolBox.currentChanged.connect(self.init)
 
     def init(self):
-        self.ui.new_test_comboBox.setFocus()
-        self.ui.new_test_comboBox.clear()
+        self.ui.test_new_lineEdit.clear()
+        self.ui.test_new_comboBox.setFocus()
+        self.ui.test_new_comboBox.clear()
         for group in get_all_group():
-            self.ui.new_test_comboBox.addItem(group)
+            self.ui.test_new_comboBox.addItem(group)
+        self.load_test_history()
 
     def start_new_test(self):
-        group_name = self.ui.new_test_comboBox.currentText()
-        group = open_group(group_name)
-        test_dialog = TestWordModel(group_name, group.get_meaning_dict(), self.ui)
-        result = test_dialog.exec_()
-        if result:
-            word_test = new_test_data(result)
-            test_result_dialog = TestResultModel(word_test, self.ui)
-            test_result_dialog.exec_()
+        group_name = self.ui.test_new_comboBox.currentText()
+        name = self.ui.test_new_lineEdit.text()
+        begin_time = time.time()
+        if name:
+            test_dialog = TestWordModel(WordGroup(group_name), self.ui)
+            result = test_dialog.exec_()
+            if result:
+                finish_time = time.time()
+                word_test = new_test(name, group_name, str(datetime.fromtimestamp(begin_time)).split('.')[0],
+                                     f"{finish_time - begin_time:.2f} s", result)
+                test_result_dialog = TestResultModel(word_test, self.ui)
+                test_result_dialog.exec_()
 
     def load_test_history(self):
-        self.ui.word_tableWidget.setRowCount(0)
-        self.ui.word_tableWidget.clearContents()
+        self.ui.test_history_tableWidget.setRowCount(0)
+        self.ui.test_history_tableWidget.clearContents()
         for test in get_all_test():
-            row_count = self.ui.word_tableWidget.rowCount()
-            self.ui.word_tableWidget.insertRow(row_count)
-            self.ui.word_tableWidget.setItem(row_count, 0, QTableWidgetItem(test))
-            self.ui.word_tableWidget.setItem(row_count, 1, QTableWidgetItem())
+            word_test_data = WordTest(test).get_data()
+            row_count = self.ui.test_history_tableWidget.rowCount()
+            self.ui.test_history_tableWidget.insertRow(row_count)
+            self.ui.test_history_tableWidget.setItem(row_count, 0, QTableWidgetItem(word_test_data['group_name']))
+            self.ui.test_history_tableWidget.setItem(row_count, 1, QTableWidgetItem(word_test_data['name']))
+            self.ui.test_history_tableWidget.setItem(row_count, 2, QTableWidgetItem(word_test_data['time_spend']))
+            self.ui.test_history_tableWidget.setItem(row_count, 3,
+                                                     QTableWidgetItem(word_test_data['correct percentage']))
+            self.ui.test_history_tableWidget.setItem(row_count, 4, QTableWidgetItem(word_test_data['time']))
 
     def close(self):
         ...

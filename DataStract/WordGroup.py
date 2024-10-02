@@ -5,6 +5,7 @@ from Functions.CSV import open_csv, write_csv
 
 class WordGroup:
     def __init__(self, group_name: str):
+        self.__group_name = group_name
         self.file_path = f'./data/words/{group_name}.csv'
         self.__word_data = open_csv(self.file_path)
 
@@ -39,6 +40,9 @@ class WordGroup:
         for word in self.__word_data:
             dictionary[word['word']] = word['meaning'].replace('\n', ';;')
         return dictionary
+
+    def get_group_name(self):
+        return self.__group_name
 
     def save_data(self):
         write_csv(self.file_path, self.__word_data)

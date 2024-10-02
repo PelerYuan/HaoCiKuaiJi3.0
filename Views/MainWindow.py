@@ -17,11 +17,11 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QCommandLinkButton, QGroupBox,
-    QHBoxLayout, QHeaderView, QLabel, QListView,
-    QMainWindow, QMenu, QMenuBar, QPushButton,
-    QSizePolicy, QSpacerItem, QStatusBar, QTabWidget,
-    QTableWidget, QTableWidgetItem, QTextBrowser, QToolBox,
-    QVBoxLayout, QWidget)
+    QHBoxLayout, QHeaderView, QLabel, QLineEdit,
+    QListView, QMainWindow, QMenu, QMenuBar,
+    QPushButton, QSizePolicy, QSpacerItem, QStatusBar,
+    QTabWidget, QTableWidget, QTableWidgetItem, QTextBrowser,
+    QToolBox, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -134,6 +134,29 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_5.addWidget(self.textBrowser)
 
+        self.horizontalLayout_6 = QHBoxLayout()
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_6.addItem(self.horizontalSpacer_5)
+
+        self.label_2 = QLabel(self.page)
+        self.label_2.setObjectName(u"label_2")
+
+        self.horizontalLayout_6.addWidget(self.label_2)
+
+        self.test_new_lineEdit = QLineEdit(self.page)
+        self.test_new_lineEdit.setObjectName(u"test_new_lineEdit")
+
+        self.horizontalLayout_6.addWidget(self.test_new_lineEdit)
+
+        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_6.addItem(self.horizontalSpacer_6)
+
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout_6)
+
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
@@ -145,10 +168,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.label)
 
-        self.new_test_comboBox = QComboBox(self.page)
-        self.new_test_comboBox.setObjectName(u"new_test_comboBox")
+        self.test_new_comboBox = QComboBox(self.page)
+        self.test_new_comboBox.setObjectName(u"test_new_comboBox")
+        self.test_new_comboBox.setMinimumSize(QSize(330, 0))
 
-        self.horizontalLayout_2.addWidget(self.new_test_comboBox)
+        self.horizontalLayout_2.addWidget(self.test_new_comboBox)
 
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -163,10 +187,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
 
-        self.new_test_commandLinkButton = QCommandLinkButton(self.page)
-        self.new_test_commandLinkButton.setObjectName(u"new_test_commandLinkButton")
+        self.test_new_commandLinkButton = QCommandLinkButton(self.page)
+        self.test_new_commandLinkButton.setObjectName(u"test_new_commandLinkButton")
 
-        self.horizontalLayout_3.addWidget(self.new_test_commandLinkButton)
+        self.horizontalLayout_3.addWidget(self.test_new_commandLinkButton)
 
         self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -183,7 +207,28 @@ class Ui_MainWindow(object):
         self.page_2 = QWidget()
         self.page_2.setObjectName(u"page_2")
         self.page_2.setGeometry(QRect(0, 0, 1164, 561))
-        self.toolBox.addItem(self.page_2, u"Page 2")
+        self.verticalLayout_6 = QVBoxLayout(self.page_2)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.test_history_tableWidget = QTableWidget(self.page_2)
+        if (self.test_history_tableWidget.columnCount() < 5):
+            self.test_history_tableWidget.setColumnCount(5)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.test_history_tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem5)
+        __qtablewidgetitem6 = QTableWidgetItem()
+        self.test_history_tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem6)
+        __qtablewidgetitem7 = QTableWidgetItem()
+        self.test_history_tableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem7)
+        __qtablewidgetitem8 = QTableWidgetItem()
+        self.test_history_tableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem8)
+        __qtablewidgetitem9 = QTableWidgetItem()
+        self.test_history_tableWidget.setHorizontalHeaderItem(4, __qtablewidgetitem9)
+        self.test_history_tableWidget.setObjectName(u"test_history_tableWidget")
+        self.test_history_tableWidget.horizontalHeader().setDefaultSectionSize(200)
+        self.test_history_tableWidget.horizontalHeader().setStretchLastSection(True)
+
+        self.verticalLayout_6.addWidget(self.test_history_tableWidget)
+
+        self.toolBox.addItem(self.page_2, u"History")
 
         self.verticalLayout_4.addWidget(self.toolBox)
 
@@ -216,7 +261,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.tabWidget.setCurrentIndex(1)
-        self.toolBox.setCurrentIndex(0)
+        self.toolBox.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -253,10 +298,21 @@ class Ui_MainWindow(object):
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:72pt; font-weight:700;\">New Test!</span></p></body></html>", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"from group:", None))
-        self.new_test_commandLinkButton.setText(QCoreApplication.translate("MainWindow", u"GO", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Name: ", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"From group:", None))
+        self.test_new_commandLinkButton.setText(QCoreApplication.translate("MainWindow", u"GO", None))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page), QCoreApplication.translate("MainWindow", u"New Test", None))
-        self.toolBox.setItemText(self.toolBox.indexOf(self.page_2), QCoreApplication.translate("MainWindow", u"Page 2", None))
+        ___qtablewidgetitem5 = self.test_history_tableWidget.horizontalHeaderItem(0)
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"Group Name", None));
+        ___qtablewidgetitem6 = self.test_history_tableWidget.horizontalHeaderItem(1)
+        ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"Test Name", None));
+        ___qtablewidgetitem7 = self.test_history_tableWidget.horizontalHeaderItem(2)
+        ___qtablewidgetitem7.setText(QCoreApplication.translate("MainWindow", u"Time Spent", None));
+        ___qtablewidgetitem8 = self.test_history_tableWidget.horizontalHeaderItem(3)
+        ___qtablewidgetitem8.setText(QCoreApplication.translate("MainWindow", u"Correct percentage", None));
+        ___qtablewidgetitem9 = self.test_history_tableWidget.horizontalHeaderItem(4)
+        ___qtablewidgetitem9.setText(QCoreApplication.translate("MainWindow", u"Date", None));
+        self.toolBox.setItemText(self.toolBox.indexOf(self.page_2), QCoreApplication.translate("MainWindow", u"History", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Test", None))
         self.menuGroup.setTitle(QCoreApplication.translate("MainWindow", u"Group", None))
     # retranslateUi

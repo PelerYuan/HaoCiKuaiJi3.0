@@ -33,10 +33,6 @@ def new_group(group_name):
         group = WordGroup(group_name)
 
 
-def open_group(group_name):
-    return WordGroup(group_name)
-
-
 def import_old_group(path: str, name: str):
     csv_file = open_csv(path)
     for word in csv_file:

@@ -54,13 +54,13 @@ class WordBlock:
 
     def word_group_new(self):
         while True:
-            name, ok = QInputDialog.getText(self.ui, "New group", "Enter the name:")
+            name, ok = QInputDialog.getText(self.ui, "New group", "Enter the __name:")
             if ok:
                 if name:
                     new_group(name)
                     break
                 else:
-                    QMessageBox.warning(self.ui, "Warning", "Please enter the name")
+                    QMessageBox.warning(self.ui, "Warning", "Please enter the __name")
             else:
                 break
         self.word_group_update()
@@ -89,13 +89,13 @@ class WordBlock:
                                                    options=options)
         if file_name:
             while True:
-                name, ok = QInputDialog.getText(self.ui, "Import group", "Enter the group name:")
+                name, ok = QInputDialog.getText(self.ui, "Import group", "Enter the group __name:")
                 if ok:
                     if name:
                         import_old_group(file_name, name)
                         break
                     else:
-                        QMessageBox.warning(self.ui, "Warning", "Please enter the name")
+                        QMessageBox.warning(self.ui, "Warning", "Please enter the __name")
                 else:
                     break
             self.word_group_update()
