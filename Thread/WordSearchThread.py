@@ -15,7 +15,6 @@ class WordSearchThread(QThread):
         self.__running = True
 
     def add_word(self, word: str):
-        print(word)
         self.__queue.put(word)
 
     def run(self):
