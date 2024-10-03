@@ -18,10 +18,11 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QCommandLinkButton, QGroupBox,
     QHBoxLayout, QHeaderView, QLabel, QLineEdit,
-    QListView, QMainWindow, QMenu, QMenuBar,
-    QPushButton, QSizePolicy, QSpacerItem, QStatusBar,
-    QTabWidget, QTableWidget, QTableWidgetItem, QTextBrowser,
-    QToolBox, QVBoxLayout, QWidget)
+    QListView, QListWidget, QListWidgetItem, QMainWindow,
+    QMenu, QMenuBar, QPushButton, QSizePolicy,
+    QSpacerItem, QStatusBar, QTabWidget, QTableWidget,
+    QTableWidgetItem, QTextBrowser, QToolBox, QVBoxLayout,
+    QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -233,6 +234,40 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.addWidget(self.toolBox)
 
         self.tabWidget.addTab(self.tab_2, "")
+        self.tab_3 = QWidget()
+        self.tab_3.setObjectName(u"tab_3")
+        self.horizontalLayout_7 = QHBoxLayout(self.tab_3)
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.groupBox_2 = QGroupBox(self.tab_3)
+        self.groupBox_2.setObjectName(u"groupBox_2")
+        self.verticalLayout_7 = QVBoxLayout(self.groupBox_2)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.memorize_review_listWidget = QListWidget(self.groupBox_2)
+        self.memorize_review_listWidget.setObjectName(u"memorize_review_listWidget")
+
+        self.verticalLayout_7.addWidget(self.memorize_review_listWidget)
+
+
+        self.horizontalLayout_7.addWidget(self.groupBox_2)
+
+        self.groupBox_3 = QGroupBox(self.tab_3)
+        self.groupBox_3.setObjectName(u"groupBox_3")
+        self.verticalLayout_8 = QVBoxLayout(self.groupBox_3)
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.memorize_new_listWidget = QListWidget(self.groupBox_3)
+        self.memorize_new_listWidget.setObjectName(u"memorize_new_listWidget")
+
+        self.verticalLayout_8.addWidget(self.memorize_new_listWidget)
+
+
+        self.horizontalLayout_7.addWidget(self.groupBox_3)
+
+        self.groupBox_4 = QGroupBox(self.tab_3)
+        self.groupBox_4.setObjectName(u"groupBox_4")
+
+        self.horizontalLayout_7.addWidget(self.groupBox_4)
+
+        self.tabWidget.addTab(self.tab_3, "")
 
         self.verticalLayout_2.addWidget(self.tabWidget)
 
@@ -260,8 +295,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(1)
-        self.toolBox.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(2)
+        self.toolBox.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -314,6 +349,10 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem9.setText(QCoreApplication.translate("MainWindow", u"Date", None));
         self.toolBox.setItemText(self.toolBox.indexOf(self.page_2), QCoreApplication.translate("MainWindow", u"History", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Test", None))
+        self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Review", None))
+        self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"New", None))
+        self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"Practise", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"Memorize", None))
         self.menuGroup.setTitle(QCoreApplication.translate("MainWindow", u"Group", None))
     # retranslateUi
 

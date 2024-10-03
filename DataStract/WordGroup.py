@@ -21,8 +21,6 @@ class WordGroup:
         self.__word_data[index] = word
 
     def update_word(self, word_: str, **word_data):
-        print(word_)
-        print(word_data)
         for i in range(len(self.__word_data)):
             if self.__word_data[i]['word'] == word_:
                 self.__word_data[i] = word_data

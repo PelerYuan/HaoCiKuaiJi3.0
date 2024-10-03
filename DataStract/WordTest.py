@@ -8,7 +8,6 @@ class WordTest:
         self.__name = name
         self.file_path = f'./data/test/{name}.json'
         self.__data = open_json(self.file_path)
-        print(self.__data)
         if self.__data:
             self.__result = self.__data['result']
         else:

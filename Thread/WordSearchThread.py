@@ -21,9 +21,7 @@ class WordSearchThread(QThread):
         while self.__running:
             word = self.__queue.get()
             if word:
-                print(word)
                 result = search_word(word)
-                print(result)
                 if result:
                     self.task_finished.emit(result)
                     time.sleep(0.1)
