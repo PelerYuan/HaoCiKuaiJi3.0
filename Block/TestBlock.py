@@ -1,7 +1,7 @@
 import time
 from datetime import datetime
 
-from PySide6.QtWidgets import QTableWidgetItem, QTableWidget
+from PySide6.QtWidgets import QTableWidgetItem, QTableWidget, QMessageBox
 
 from Models.TestResultModel import TestResultModel
 from Models.TestWordModel import TestWordModel
@@ -31,17 +31,21 @@ class TestBlock:
 
     def start_new_test(self):
         group_name = self.ui.test_new_comboBox.currentText()
-        name = self.ui.test_new_lineEdit.text()
-        begin_time = time.time()
-        if name:
-            test_dialog = TestWordModel(WordGroup(group_name), self.ui)
-            result = test_dialog.exec_()
-            if result:
-                finish_time = time.time()
-                word_test = new_test(name, group_name, str(datetime.fromtimestamp(begin_time)).split('.')[0],
-                                     f"{finish_time - begin_time:.2f} s", result)
-                test_result_dialog = TestResultModel(word_test, self.ui)
-                test_result_dialog.exec_()
+        group = WordGroup(group_name)
+        if len(group.get_all_word()) > 5:
+            name = self.ui.test_new_lineEdit.text()
+            begin_time = time.time()
+            if name:
+                test_dialog = TestWordModel(group, self.ui)
+                result = test_dialog.exec_()
+                if result:
+                    finish_time = time.time()
+                    word_test = new_test(name, group_name, str(datetime.fromtimestamp(begin_time)).split('.')[0],
+                                         f"{finish_time - begin_time:.2f} s", result)
+                    test_result_dialog = TestResultModel(word_test, self.ui)
+                    test_result_dialog.exec_()
+        else:
+            QMessageBox.warning(self.ui, "Warning", "Please make sure you have more than five words in the group.")
 
     def show_test_result(self, row, column):
         item = self.ui.test_history_tableWidget.item(row, 1)

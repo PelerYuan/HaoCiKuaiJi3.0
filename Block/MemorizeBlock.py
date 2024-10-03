@@ -2,7 +2,7 @@ import time
 from datetime import datetime
 
 from PySide6.QtCore import QModelIndex
-from PySide6.QtWidgets import QTableWidgetItem, QTableWidget
+from PySide6.QtWidgets import QTableWidgetItem, QTableWidget, QMessageBox
 
 from DataStract.WordMemorize import WordMemorize
 from Functions.JSON import open_json
@@ -42,13 +42,17 @@ class MemorizeBlock:
 
     def start_memorize(self, item):
         group_name = item.text()
-        word_memorize = MemorizeWordModel(WordGroup(group_name))
-        result = word_memorize.exec_()
-        if result:
-            memorize = open_memorize(group_name)
-            memorize.set_data(result)
-            memorize.save_data()
-            self.init()
+        group = WordGroup(group_name)
+        if len(group.get_all_word()) > 5:
+            word_memorize = MemorizeWordModel(group)
+            result = word_memorize.exec_()
+            if result:
+                memorize = open_memorize(group_name)
+                memorize.set_data(result)
+                memorize.save_data()
+                self.init()
+        else:
+            QMessageBox.warning(self.ui, "Warning", "Please make sure you have more than five words in the group.")
 
 
     def close(self):
