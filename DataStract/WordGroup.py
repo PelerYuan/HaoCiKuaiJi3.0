@@ -39,6 +39,12 @@ class WordGroup:
             dictionary[word['word']] = word['meaning'].replace('\n', ';;')
         return dictionary
 
+    def get_example_dict(self):
+        dictionary = {}
+        for word in self.__word_data:
+            dictionary[word['word']] = word['example']
+        return dictionary
+
     def get_group_name(self):
         return self.__group_name
 
