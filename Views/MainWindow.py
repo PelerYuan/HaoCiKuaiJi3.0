@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'MainWindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.3
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -104,7 +104,7 @@ class Ui_MainWindow(object):
         self.word_tableWidget.setHorizontalHeaderItem(4, __qtablewidgetitem4)
         self.word_tableWidget.setObjectName(u"word_tableWidget")
         self.word_tableWidget.horizontalHeader().setDefaultSectionSize(150)
-        self.word_tableWidget.horizontalHeader().setProperty(u"showSortIndicator", False)
+        self.word_tableWidget.horizontalHeader().setProperty("showSortIndicator", False)
         self.word_tableWidget.horizontalHeader().setStretchLastSection(True)
 
         self.verticalLayout_3.addWidget(self.word_tableWidget)

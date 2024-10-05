@@ -30,7 +30,10 @@ class MemorizeBlock:
         self.ui.memorize_new_listWidget.addItems(get_all_group())
         init_memorize()
         index = open_json('./data/memorize/index.json')
-        index = dict(sorted(index.items(), key=lambda item: item[1]['last_time']))
+        try:
+            index = dict(sorted(index.items(), key=lambda item: item[1]['last_time']))
+        except TypeError:
+            ...
         count = 0
         for group in index.keys():
             if count <= 5:
