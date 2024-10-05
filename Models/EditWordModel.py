@@ -53,7 +53,6 @@ class EditWordModel(Ui_Dialog, QDialog):
 
     def get_data(self):
         return {
-            'word': self.word_lineEdit.text(),
             'part': self.part_lineEdit.text(),
             'meaning': self.meaning_textEdit.toPlainText(),
             'example': self.example_textEdit.toPlainText(),

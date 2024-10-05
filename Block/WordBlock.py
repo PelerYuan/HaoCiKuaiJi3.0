@@ -48,6 +48,8 @@ class WordBlock:
         self.ui.word_tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
 
     def word_group_update(self):
+        if self.word_group:
+            save_word_group(self.word_group)
         self.word_group_model.setStringList(get_all_word_group())
         self.word_group = None
 
@@ -108,8 +110,6 @@ class WordBlock:
             self.word_group_update()
 
     def word_group_clicked(self, index):
-        if self.word_group:
-            save_word_group(self.word_group)
         self.word_group = WordGroup(self.word_group_model.data(index, 0))
         self.word_update()
 
@@ -150,28 +150,32 @@ class WordBlock:
         if selected_indexes:
             selected_rows = sorted(set(index.row() for index in selected_indexes))
             for i in range(len(selected_rows)):
-                self.word_group.delete_word(selected_rows[i] - i)
-        self.word_group.save_data()
-        self.word_update()
+                self.word_group.delete_word(self.ui.word_tableWidget.item(selected_rows[i] - i, 0).text())
+                self.ui.word_tableWidget.removeRow(selected_rows[i] - i)
 
     def word_edit(self, part: str | bool = False):
         selected_indexes = self.ui.word_tableWidget.selectionModel().selectedIndexes()
         if selected_indexes:
             row = selected_indexes[0].row()
-            edit_word_dialog = EditWordModel(part, self.word_group.get_word_data(row), self.ui)
+            word = self.ui.word_tableWidget.item(row, 0).text()
+            edit_word_dialog = EditWordModel(part, self.word_group.get_word_data(word), self.ui)
             result = edit_word_dialog.exec_()
             if result:
-                self.word_group.edit_word(row, **result)
-        self.word_group.save_data()
-        self.word_update()
+                self.word_group.update_word(word, **result)
+        self.ui.word_tableWidget.setItem(row, 0, QTableWidgetItem(word))
+        self.ui.word_tableWidget.setItem(row, 1, QTableWidgetItem(result['part']))
+        self.ui.word_tableWidget.setItem(row, 2, QTableWidgetItem(result['meaning']))
+        self.ui.word_tableWidget.setItem(row, 3, QTableWidgetItem(result['example']))
+        play_button = QPushButton(f"Play {result['symbol']}", self.ui)
+        play_button.clicked.connect(lambda: self.word_play_audio(word))
+        self.ui.word_tableWidget.setCellWidget(row, 4, play_button)
 
     def word_double_clicked(self, index: QModelIndex):
         column = index.column()
         self.word_edit(['word', 'part', 'meaning', 'example', 'symbol', 'audio'][column])
 
     def word_search_finished(self, data: dict):
-        self.word_group.update_word(data['word'], **data)
-        self.word_group.save_data()
+        self.word_group.update_word(**data)
         self.word_update()
 
     def word_play_audio(self, word: str):
