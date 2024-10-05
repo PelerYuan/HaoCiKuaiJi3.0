@@ -108,25 +108,27 @@ class WordBlock:
             self.word_group_update()
 
     def word_group_clicked(self, index):
+        if self.word_group:
+            save_word_group(self.word_group)
         self.word_group = WordGroup(self.word_group_model.data(index, 0))
         self.word_update()
 
     def word_update(self):
         self.ui.word_tableWidget.setRowCount(0)
         self.ui.word_tableWidget.clearContents()
-        for word in self.word_group.get_all_data():
-            self.word_insert(word)
+        for word, word_data in self.word_group.get_all_data().items():
+            self.word_insert(word, word_data)
 
-    def word_insert(self, word_data: dict):
+    def word_insert(self, word: str, word_data: dict):
         row_count = self.ui.word_tableWidget.rowCount()
         self.ui.word_tableWidget.insertRow(row_count)
-        self.ui.word_tableWidget.setItem(row_count, 0, QTableWidgetItem(word_data['word']))
+        self.ui.word_tableWidget.setItem(row_count, 0, QTableWidgetItem(word))
         self.ui.word_tableWidget.setItem(row_count, 1, QTableWidgetItem(word_data['part']))
         self.ui.word_tableWidget.setItem(row_count, 2, QTableWidgetItem(word_data['meaning']))
         self.ui.word_tableWidget.setItem(row_count, 3, QTableWidgetItem(word_data['example']))
 
         play_button = QPushButton(f"Play {word_data['symbol']}", self.ui)
-        play_button.clicked.connect(lambda: self.word_play_audio(word_data['word']))
+        play_button.clicked.connect(lambda: self.word_play_audio(word))
         self.ui.word_tableWidget.setCellWidget(row_count, 4, play_button)
 
     def word_new(self):
@@ -141,8 +143,7 @@ class WordBlock:
                     QMessageBox.warning(self.ui, "Warning", "Please enter the word")
             else:
                 break
-        self.word_group.save_data()
-        self.word_update()
+        self.word_insert(word, self.word_group.get_word_data(word))
 
     def word_delete(self):
         selected_indexes = self.ui.word_tableWidget.selectionModel().selectedIndexes()
@@ -157,7 +158,7 @@ class WordBlock:
         selected_indexes = self.ui.word_tableWidget.selectionModel().selectedIndexes()
         if selected_indexes:
             row = selected_indexes[0].row()
-            edit_word_dialog = EditWordModel(part, self.word_group.get_word(row), self.ui)
+            edit_word_dialog = EditWordModel(part, self.word_group.get_word_data(row), self.ui)
             result = edit_word_dialog.exec_()
             if result:
                 self.word_group.edit_word(row, **result)
