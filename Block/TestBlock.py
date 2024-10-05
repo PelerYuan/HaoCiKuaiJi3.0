@@ -32,7 +32,7 @@ class TestBlock:
     def start_new_test(self):
         group_name = self.ui.test_new_comboBox.currentText()
         group = WordGroup(group_name)
-        if len(group.get_all_word()) > 5:
+        if len(group.get_all_data()) > 5:
             name = self.ui.test_new_lineEdit.text()
             begin_time = time.time()
             if name:

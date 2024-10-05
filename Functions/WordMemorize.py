@@ -26,7 +26,7 @@ def open_memorize(group_name: str):
         word_memorize = WordMemorize(group_name)
         if not word_memorize.get_data():
             print('aaaaa')
-            data = {word['word']: 1 for word in WordGroup(group_name).get_all_word()}
+            data = {word['word']: 1 for word in WordGroup(group_name).get_all_data()}
             word_memorize.set_data(data)
             word_memorize.save_data()
         return word_memorize

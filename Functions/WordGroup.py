@@ -5,36 +5,38 @@ from DataStract.WordGroup import WordGroup
 from Functions.CSV import open_csv, write_csv
 
 
-def get_all_group():
+def new_word_group(group_name: str) -> WordGroup:
+    group_name = check_name(group_name)
+    with open(f'./data/words/{group_name}.csv', 'w', newline='') as file:
+        return WordGroup(group_name)
+
+
+def open_word_group(group_name: str) -> WordGroup:
+    data = open_csv(f'./data/words/{group_name}.csv')
+    group = WordGroup(group_name)
+    for value in data:
+        group.add_word(**value)
+    return group
+
+
+def get_all_word_group() -> list[str]:
     groups = []
     for group in os.listdir('./data/words'):
         groups.append(group.replace('.csv', ''))
     return groups
 
 
-def delete_group(group_name):
-    try:
-        os.remove(f'./data/words/{group_name}.csv')
-    except FileNotFoundError as e:
-        logging.log(logging.ERROR, e)
+def delete_word_group(group_name: str) -> None:
+    os.remove(f'./data/words/{group_name}.csv')
 
 
-def rename_group(old_group_name, new_group_name):
+def rename_word_group(old_group_name: str, new_group_name: str) -> None:
     new_group_name = check_name(new_group_name)
-    try:
-        os.rename(f'./data/words/{old_group_name}.csv', f'./data/words/{new_group_name}.csv')
-    except FileNotFoundError as e:
-        logging.log(logging.ERROR, e)
+    os.rename(f'./data/words/{old_group_name}.csv', f'./data/words/{new_group_name}.csv')
 
 
-def new_group(group_name):
-    group_name = check_name(group_name)
-    with open(f'./data/words/{group_name}.csv', 'w', newline='') as file:
-        group = WordGroup(group_name)
-
-
-def import_old_group(path: str, name: str):
-    csv_file = open_csv(path)
+def import_old_word_group(old_group_path: str, new_gourp_name: str):
+    csv_file = open_csv(old_group_path)
     for word in csv_file:
         word['part'] = word['part_of_speech']
         word['symbol'] = word['phonetic_symbol']
@@ -43,11 +45,11 @@ def import_old_group(path: str, name: str):
         del word['phonetic_symbol']
         del word['audio_link']
 
-    name = check_name(name)
-    write_csv(f'./data/words/{name}.csv', csv_file)
+    new_gourp_name = check_name(new_gourp_name)
+    write_csv(f'./data/words/{new_gourp_name}.csv', csv_file)
 
 
 def check_name(group_name):
-    while group_name in get_all_group():
+    while group_name in get_all_word_group():
         group_name += '_'
     return group_name

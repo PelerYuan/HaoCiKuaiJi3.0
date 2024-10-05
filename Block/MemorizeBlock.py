@@ -46,7 +46,7 @@ class MemorizeBlock:
     def start_memorize(self, item):
         group_name = item.text()
         group = WordGroup(group_name)
-        if len(group.get_all_word()) > 5:
+        if len(group.get_all_data()) > 5:
             word_memorize = MemorizeWordModel(group)
             result = word_memorize.exec_()
             if result:

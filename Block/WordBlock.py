@@ -80,7 +80,7 @@ class WordBlock:
 
     def word_group_update_data(self):
         if self.word_group:
-            for word in self.word_group.get_all_word():
+            for word in self.word_group.get_all_data():
                 self.word_search_thread.add_word(word['word'])
 
     def word_group_import_2v(self):
@@ -99,7 +99,7 @@ class WordBlock:
                 else:
                     break
             self.word_group_update()
-            for word in WordGroup(name).get_all_word():
+            for word in WordGroup(name).get_all_data():
                 self.word_search_thread.add_word(word['word'])
 
     def word_group_changed(self, top_left, bottom_right, roles):
@@ -117,7 +117,7 @@ class WordBlock:
     def word_update(self):
         self.ui.word_tableWidget.setRowCount(0)
         self.ui.word_tableWidget.clearContents()
-        for word in self.word_group.get_all_word():
+        for word in self.word_group.get_all_data():
             self.word_insert(word)
 
     def word_insert(self, word_data: dict):
