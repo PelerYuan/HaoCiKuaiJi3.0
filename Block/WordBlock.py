@@ -18,7 +18,6 @@ class WordBlock:
 
         self.word_group_model = QStringListModel()
         self.ui.word_group_listView.setModel(self.word_group_model)
-        self.word_group_select = ""
 
         self.word_search_thread = WordSearchThread()
         self.word_search_thread.task_finished.connect(self.word_search_finished)
@@ -49,25 +48,25 @@ class WordBlock:
         self.ui.word_tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
 
     def word_group_update(self):
-        self.word_group_model.setStringList(get_all_group())
-        self.word_group_select = ""
+        self.word_group_model.setStringList(get_all_word_group())
+        self.word_group = None
 
     def word_group_new(self):
         while True:
-            name, ok = QInputDialog.getText(self.ui, "New group", "Enter the __name:")
+            name, ok = QInputDialog.getText(self.ui, "New group", "Enter the name:")
             if ok:
                 if name:
-                    new_group(name)
+                    new_word_group(name)
                     break
                 else:
-                    QMessageBox.warning(self.ui, "Warning", "Please enter the __name")
+                    QMessageBox.warning(self.ui, "Warning", "Please enter the name")
             else:
                 break
         self.word_group_update()
 
     def word_group_delete(self):
-        if self.word_group_select:
-            delete_group(self.word_group_select)
+        if self.word_group:
+            delete_word_group(self.word_group.get_group_name())
             self.word_group_update()
 
     def word_group_rename(self):
@@ -80,38 +79,36 @@ class WordBlock:
 
     def word_group_update_data(self):
         if self.word_group:
-            for word in self.word_group.get_all_data():
-                self.word_search_thread.add_word(word['word'])
+            for word in self.word_group.get_all_data().keys():
+                self.word_search_thread.add_word(word)
 
     def word_group_import_2v(self):
         options = QFileDialog.Options()
-        file_name, _ = QFileDialog.getOpenFileName(self.ui, "Open old group file", "", "HaoCiKuaiJi2.0 (*.csv)",
+        file_path, _ = QFileDialog.getOpenFileName(self.ui, "Open old group file", "", "HaoCiKuaiJi2.0 (*.csv)",
                                                    options=options)
-        if file_name:
+        if file_path:
             while True:
-                name, ok = QInputDialog.getText(self.ui, "Import group", "Enter the group __name:")
+                name, ok = QInputDialog.getText(self.ui, "Import group", "Enter the group name:")
                 if ok:
                     if name:
-                        import_old_group(file_name, name)
+                        import_old_word_group(file_path, name)
                         break
                     else:
-                        QMessageBox.warning(self.ui, "Warning", "Please enter the __name")
+                        QMessageBox.warning(self.ui, "Warning", "Please enter the group name")
                 else:
                     break
             self.word_group_update()
-            for word in WordGroup(name).get_all_data():
-                self.word_search_thread.add_word(word['word'])
+            self.word_group_update_data()
 
     def word_group_changed(self, top_left, bottom_right, roles):
-        if self.word_group_select:
+        if self.word_group:
             if Qt.EditRole in roles:
                 new_name = self.word_group_model.data(top_left, Qt.EditRole)
-                rename_group(self.word_group_select, new_name)
+                rename_word_group(self.word_group.get_group_name(), new_name)
             self.word_group_update()
 
     def word_group_clicked(self, index):
-        self.word_group_select = self.word_group_model.data(index, 0)
-        self.word_group = WordGroup(self.word_group_select)
+        self.word_group = WordGroup(self.word_group_model.data(index, 0))
         self.word_update()
 
     def word_update(self):

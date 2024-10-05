@@ -34,6 +34,10 @@ def rename_word_group(old_group_name: str, new_group_name: str) -> None:
     new_group_name = check_name(new_group_name)
     os.rename(f'./data/words/{old_group_name}.csv', f'./data/words/{new_group_name}.csv')
 
+def save_word_group(group_name: str) -> None:
+    group = open_word_group(group_name)
+    write_csv(f'./data/words/{group_name}.csv', group.get_all_data())
+
 
 def import_old_word_group(old_group_path: str, new_gourp_name: str):
     csv_file = open_csv(old_group_path)
