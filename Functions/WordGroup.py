@@ -13,8 +13,10 @@ def new_word_group(group_name: str) -> WordGroup:
 
 def open_word_group(group_name: str) -> WordGroup:
     data = open_csv(f'./data/words/{group_name}.csv')
+    print(data)
     group = WordGroup(group_name)
     for value in data:
+        print(value)
         group.add_word(**value)
     return group
 
@@ -37,7 +39,7 @@ def rename_word_group(old_group_name: str, new_group_name: str) -> None:
 def save_word_group(word_group: WordGroup) -> None:
     data = []
     for word, value in word_group.get_all_data().items():
-        value[word] = word
+        value['word'] = word
         data.append(value)
     write_csv(f'./data/words/{word_group.get_group_name()}.csv', data)
 

@@ -25,7 +25,7 @@ class TestBlock:
         self.ui.test_new_lineEdit.clear()
         self.ui.test_new_comboBox.setFocus()
         self.ui.test_new_comboBox.clear()
-        for group in get_all_group():
+        for group in get_all_word_group():
             self.ui.test_new_comboBox.addItem(group)
         self.load_test_history()
 

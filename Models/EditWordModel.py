@@ -6,19 +6,20 @@ from Views.EditWordDialog import Ui_Dialog
 
 
 class EditWordModel(Ui_Dialog, QDialog):
-    def __init__(self, part: str | bool, word_data: dict, parent=None):
+    def __init__(self, part: str | bool, word: str, word_data: dict, parent=None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
         self.show()
 
         self.part = part
+        self.word = word
         self.word_data = word_data
 
         self.init()
         self.event_connect()
 
     def init(self):
-        self.word_lineEdit.setText(self.word_data['word'])
+        self.word_lineEdit.setText(self.word)
         self.part_lineEdit.setText(self.word_data['part'])
         self.meaning_textEdit.setText(self.word_data['meaning'])
         self.example_textEdit.setText(self.word_data['example'])

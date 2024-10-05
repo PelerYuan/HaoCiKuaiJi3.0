@@ -27,7 +27,7 @@ class MemorizeBlock:
         self.ui.memorize_new_listWidget.clear()
         self.ui.memorize_review_listWidget.clear()
 
-        self.ui.memorize_new_listWidget.addItems(get_all_group())
+        self.ui.memorize_new_listWidget.addItems(get_all_word_group())
         init_memorize()
         index = open_json('./data/memorize/index.json')
         try:
@@ -45,7 +45,7 @@ class MemorizeBlock:
 
     def start_memorize(self, item):
         group_name = item.text()
-        group = WordGroup(group_name)
+        group = open_word_group(group_name)
         if len(group.get_all_data()) > 5:
             word_memorize = MemorizeWordModel(group)
             result = word_memorize.exec_()

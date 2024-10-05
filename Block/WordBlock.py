@@ -110,7 +110,9 @@ class WordBlock:
             self.word_group_update()
 
     def word_group_clicked(self, index):
-        self.word_group = WordGroup(self.word_group_model.data(index, 0))
+        if self.word_group:
+            save_word_group(self.word_group)
+        self.word_group = open_word_group(self.word_group_model.data(index, 0))
         self.word_update()
 
     def word_update(self):
@@ -158,17 +160,17 @@ class WordBlock:
         if selected_indexes:
             row = selected_indexes[0].row()
             word = self.ui.word_tableWidget.item(row, 0).text()
-            edit_word_dialog = EditWordModel(part, self.word_group.get_word_data(word), self.ui)
+            edit_word_dialog = EditWordModel(part, word, self.word_group.get_word_data(word), self.ui)
             result = edit_word_dialog.exec_()
             if result:
                 self.word_group.update_word(word, **result)
-        self.ui.word_tableWidget.setItem(row, 0, QTableWidgetItem(word))
-        self.ui.word_tableWidget.setItem(row, 1, QTableWidgetItem(result['part']))
-        self.ui.word_tableWidget.setItem(row, 2, QTableWidgetItem(result['meaning']))
-        self.ui.word_tableWidget.setItem(row, 3, QTableWidgetItem(result['example']))
-        play_button = QPushButton(f"Play {result['symbol']}", self.ui)
-        play_button.clicked.connect(lambda: self.word_play_audio(word))
-        self.ui.word_tableWidget.setCellWidget(row, 4, play_button)
+                self.ui.word_tableWidget.setItem(row, 0, QTableWidgetItem(word))
+                self.ui.word_tableWidget.setItem(row, 1, QTableWidgetItem(result['part']))
+                self.ui.word_tableWidget.setItem(row, 2, QTableWidgetItem(result['meaning']))
+                self.ui.word_tableWidget.setItem(row, 3, QTableWidgetItem(result['example']))
+                play_button = QPushButton(f"Play {result['symbol']}", self.ui)
+                play_button.clicked.connect(lambda: self.word_play_audio(word))
+                self.ui.word_tableWidget.setCellWidget(row, 4, play_button)
 
     def word_double_clicked(self, index: QModelIndex):
         column = index.column()
@@ -183,5 +185,7 @@ class WordBlock:
         pygame.mixer.music.play()
 
     def close(self):
+        if self.word_group:
+            save_word_group(self.word_group)
         self.word_search_thread.stop()
         self.word_search_thread.wait()
