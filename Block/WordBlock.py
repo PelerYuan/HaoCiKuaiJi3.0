@@ -124,14 +124,19 @@ class WordBlock:
     def word_insert(self, word: str, word_data: dict):
         row_count = self.ui.word_tableWidget.rowCount()
         self.ui.word_tableWidget.insertRow(row_count)
-        self.ui.word_tableWidget.setItem(row_count, 0, QTableWidgetItem(word))
-        self.ui.word_tableWidget.setItem(row_count, 1, QTableWidgetItem(word_data['part']))
-        self.ui.word_tableWidget.setItem(row_count, 2, QTableWidgetItem(word_data['meaning']))
-        self.ui.word_tableWidget.setItem(row_count, 3, QTableWidgetItem(word_data['example']))
+        self.word_update_row(row_count, word, **word_data)
 
-        play_button = QPushButton(f"Play {word_data['symbol']}", self.ui)
+
+    def word_update_row(self, row_count:int,word:str, part:str, meaning:str, example:str, symbol:str, **kwargs):
+        self.ui.word_tableWidget.setItem(row_count, 0, QTableWidgetItem(word))
+        self.ui.word_tableWidget.setItem(row_count, 1, QTableWidgetItem(part))
+        self.ui.word_tableWidget.setItem(row_count, 2, QTableWidgetItem(meaning))
+        self.ui.word_tableWidget.setItem(row_count, 3, QTableWidgetItem(example))
+
+        play_button = QPushButton(f"Play {symbol}", self.ui)
         play_button.clicked.connect(lambda: self.word_play_audio(word))
         self.ui.word_tableWidget.setCellWidget(row_count, 4, play_button)
+
 
     def word_new(self):
         while True:
@@ -139,7 +144,7 @@ class WordBlock:
             if ok:
                 if word:
                     self.word_group.add_word(word)
-                    self.word_search_thread.add_word(word)
+                    self.word_search_thread.add_word(word, self.word_group)
                     break
                 else:
                     QMessageBox.warning(self.ui, "Warning", "Please enter the word")
@@ -164,21 +169,16 @@ class WordBlock:
             result = edit_word_dialog.exec_()
             if result:
                 self.word_group.update_word(word, **result)
-                self.ui.word_tableWidget.setItem(row, 0, QTableWidgetItem(word))
-                self.ui.word_tableWidget.setItem(row, 1, QTableWidgetItem(result['part']))
-                self.ui.word_tableWidget.setItem(row, 2, QTableWidgetItem(result['meaning']))
-                self.ui.word_tableWidget.setItem(row, 3, QTableWidgetItem(result['example']))
-                play_button = QPushButton(f"Play {result['symbol']}", self.ui)
-                play_button.clicked.connect(lambda: self.word_play_audio(word))
-                self.ui.word_tableWidget.setCellWidget(row, 4, play_button)
+                self.word_update_row(row, word, **result)
 
     def word_double_clicked(self, index: QModelIndex):
         column = index.column()
         self.word_edit(['word', 'part', 'meaning', 'example', 'symbol', 'audio'][column])
 
-    def word_search_finished(self, data: dict):
-        self.word_group.update_word(**data)
-        self.word_update()
+    def word_search_finished(self, data: dict, word_group:WordGroup):
+        if word_group is self.word_group:
+            index = list(self.word_group.get_all_data().keys()).index(data['word'])
+            self.word_update_row(index, **data)
 
     def word_play_audio(self, word: str):
         pygame.mixer.music.load(f'./data/audio/{word}.mp3')
