@@ -50,6 +50,10 @@ class WordBlock:
         self.ui.word_tableWidget.setSelectionBehavior(QTableWidget.SelectRows)
         self.ui.word_tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
 
+    def update(self):
+        if self.word_group:
+            self.word_update()
+
     def word_group_update(self):
         if self.word_group:
             save_word_group(self.word_group)

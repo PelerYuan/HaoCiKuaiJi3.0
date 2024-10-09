@@ -35,11 +35,11 @@ class MainModel(Ui_MainWindow, QMainWindow):
 
     def refresh_tab(self, index):
         if index == 0:
-            self.word_block.init()
+            self.word_block.update()
         elif index == 1:
-            self.test_block.init()
+            self.test_block.update()
         elif index == 2:
-            self.memorize_block.init()
+            self.memorize_block.update()
 
     def closeEvent(self, event):
         self.word_block.close()

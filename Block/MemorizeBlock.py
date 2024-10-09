@@ -43,6 +43,9 @@ class MemorizeBlock:
             else:
                 break
 
+    def update(self):
+        ...
+
     def start_memorize(self, item):
         group_name = item.text()
         group = open_word_group(group_name)

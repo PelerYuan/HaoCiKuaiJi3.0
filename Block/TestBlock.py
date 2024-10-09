@@ -29,6 +29,9 @@ class TestBlock:
             self.ui.test_new_comboBox.addItem(group)
         self.load_test_history()
 
+    def update(self):
+        ...
+
     def start_new_test(self):
         group_name = self.ui.test_new_comboBox.currentText()
         group = WordGroup(group_name)
