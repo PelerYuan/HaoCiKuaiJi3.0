@@ -24,6 +24,9 @@ class WordGroup:
     def get_all_data(self) -> dict[str, WordData]:
         return self.__word_data
 
+    def get_all_word(self) -> list[str]:
+        return list(self.__word_data.keys())
+
     def get_meaning_dict(self) -> dict[str, str]:
         dictionary = {}
         for word, value in self.__word_data.items():
