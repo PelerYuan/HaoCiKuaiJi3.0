@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QInputDialog, QMessageBox, QTableView, QTableWidge
     QFileDialog
 import pygame
 
+from DataStract.ConstData import ConstData
 from DataStract.WordData import WordData
 from Functions.WordGroup import *
 from Models.EditWordModel import EditWordModel
@@ -168,7 +169,7 @@ class WordBlock:
             for row in selected_rows:
                 word = self.ui.word_tableWidget.item(row, 0).text()
                 self.word_search_thread.add_word(word, self.word_group)
-            self.word_search_thread.add_word(WordSearchThread.STOP_SIGN, self.word_group)
+            self.word_search_thread.add_word(ConstData.STOP_SIGN, self.word_group)
 
     def word_edit(self, part: str | bool = False):
         selected_indexes = self.ui.word_tableWidget.selectionModel().selectedIndexes()
@@ -185,8 +186,8 @@ class WordBlock:
         column = index.column()
         self.word_edit(['word', 'part', 'meaning', 'example', 'symbol', 'audio'][column])
 
-    def word_search_finished(self, data: dict, word_group: WordGroup):
-        if data['word'] == WordSearchThread.STOP_SIGN:
+    def word_search_finished(self, word: WordData, word_group: WordGroup):
+        if word.is_stop_sign():
             if word_group is self.word_group:
                 self.word_update()
 

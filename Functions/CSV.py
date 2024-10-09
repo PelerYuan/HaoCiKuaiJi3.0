@@ -1,7 +1,7 @@
 import csv
 
 
-def open_csv(file_path:str):
+def open_csv(file_path: str):
     """
     :param file_path:
     :return: [{'Name': 'Alice', 'Age': '30', 'City': 'New York'},
@@ -15,7 +15,8 @@ def open_csv(file_path:str):
             data_list.append(row)
     return data_list
 
-def write_csv(file_path:str, data_list:list):
+
+def write_csv(file_path: str, data_list: list):
     with open(file_path, mode='w', newline='', encoding='utf-8') as file:
         if data_list:
             fieldnames = data_list[0].keys()

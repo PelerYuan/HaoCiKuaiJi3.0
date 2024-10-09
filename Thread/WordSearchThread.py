@@ -3,15 +3,15 @@ import time
 
 from PySide6.QtCore import QThread, Signal
 
+from DataStract.ConstData import ConstData
+from DataStract.WordData import WordData
 from DataStract.WordGroup import WordGroup
 from Functions.EnglishDictionary.Cambridge import search_word
 from Functions.WordGroup import save_word_group
 
 
 class WordSearchThread(QThread):
-    STOP_SIGN = 'STOP!STOP!STOP'
-
-    task_finished = Signal(dict, WordGroup)
+    task_finished = Signal(WordData, WordGroup)
 
     def __init__(self):
         super().__init__()
@@ -25,9 +25,9 @@ class WordSearchThread(QThread):
         while self.__running:
             word, word_group = self.__queue.get()
             if word:
-                if word == WordSearchThread.STOP_SIGN:
+                if word == ConstData.STOP_SIGN:
                     save_word_group(word_group)
-                    self.task_finished.emit({'word': WordSearchThread.STOP_SIGN}, word_group)
+                    self.task_finished.emit(WordData(ConstData.STOP_SIGN), word_group)
                 else:
                     result = search_word(word)
                     if result:
