@@ -1,5 +1,6 @@
 import logging
 
+import pygame
 from PySide6.QtWidgets import QDialog
 
 from DataStract.WordData import WordData
@@ -50,7 +51,7 @@ class EditWordModel(Ui_Dialog, QDialog):
             logging.log(logging.ERROR, f"Unknown option for word edit: {self.part}")
 
     def event_connect(self):
-        ...
+        self.audio_test_pushButton.clicked.connect(self.word_play_audio)
 
     def get_data(self):
         return WordData(
@@ -61,6 +62,10 @@ class EditWordModel(Ui_Dialog, QDialog):
             symbol=self.symbol_lineEdit.text(),
             audio=self.audio_lineEdit.text(),
         )
+
+    def word_play_audio(self):
+        pygame.mixer.music.load(f'./data/audio/{self.word.get_word()}.mp3')
+        pygame.mixer.music.play()
 
     def exec_(self):
         is_accept = super().exec_()
