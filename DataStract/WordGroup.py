@@ -17,7 +17,9 @@ class WordGroup:
             'symbol': symbol,
             'audio': audio
         }
+        # del self.__word_data
         self.__word_data[word] = new_word
+        print(self.__word_data[word].get('word',0))
 
     def delete_word(self, word: str) -> None:
         del self.__word_data[word]

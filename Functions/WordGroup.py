@@ -13,10 +13,8 @@ def new_word_group(group_name: str) -> WordGroup:
 
 def open_word_group(group_name: str) -> WordGroup:
     data = open_csv(f'./data/words/{group_name}.csv')
-    print(data)
     group = WordGroup(group_name)
     for value in data:
-        print(value)
         group.add_word(**value)
     return group
 

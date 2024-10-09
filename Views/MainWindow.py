@@ -86,6 +86,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.word_delete_pushButton)
 
+        self.word_search_pushButton = QPushButton(self.tab)
+        self.word_search_pushButton.setObjectName(u"word_search_pushButton")
+
+        self.horizontalLayout.addWidget(self.word_search_pushButton)
+
 
         self.verticalLayout_3.addLayout(self.horizontalLayout)
 
@@ -121,7 +126,7 @@ class Ui_MainWindow(object):
         self.toolBox.setObjectName(u"toolBox")
         self.page = QWidget()
         self.page.setObjectName(u"page")
-        self.page.setGeometry(QRect(0, 0, 1164, 561))
+        self.page.setGeometry(QRect(0, 0, 1161, 567))
         self.verticalLayout_5 = QVBoxLayout(self.page)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
@@ -207,7 +212,7 @@ class Ui_MainWindow(object):
         self.toolBox.addItem(self.page, u"New Test")
         self.page_2 = QWidget()
         self.page_2.setObjectName(u"page_2")
-        self.page_2.setGeometry(QRect(0, 0, 1164, 561))
+        self.page_2.setGeometry(QRect(0, 0, 98, 88))
         self.verticalLayout_6 = QVBoxLayout(self.page_2)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.test_history_tableWidget = QTableWidget(self.page_2)
@@ -274,7 +279,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1229, 33))
+        self.menubar.setGeometry(QRect(0, 0, 1229, 23))
         self.menuGroup = QMenu(self.menubar)
         self.menuGroup.setObjectName(u"menuGroup")
         MainWindow.setMenuBar(self.menubar)
@@ -295,7 +300,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
         self.toolBox.setCurrentIndex(0)
 
 
@@ -314,6 +319,7 @@ class Ui_MainWindow(object):
         self.word_new_pushButton.setText(QCoreApplication.translate("MainWindow", u"New", None))
         self.word_edit_pushButton.setText(QCoreApplication.translate("MainWindow", u"Edit", None))
         self.word_delete_pushButton.setText(QCoreApplication.translate("MainWindow", u"Delete", None))
+        self.word_search_pushButton.setText(QCoreApplication.translate("MainWindow", u"Search", None))
         ___qtablewidgetitem = self.word_tableWidget.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Word", None));
         ___qtablewidgetitem1 = self.word_tableWidget.horizontalHeaderItem(1)
@@ -331,8 +337,8 @@ class Ui_MainWindow(object):
 "hr { height: 1px; border-width: 0; }\n"
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:72pt; font-weight:700;\">New Test!</span></p></body></html>", None))
+"</style></head><body style=\" font-family:'Cantarell'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Segoe UI'; font-size:72pt; font-weight:700;\">New Test!</span></p></body></html>", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Name: ", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"From group:", None))
         self.test_new_commandLinkButton.setText(QCoreApplication.translate("MainWindow", u"GO", None))

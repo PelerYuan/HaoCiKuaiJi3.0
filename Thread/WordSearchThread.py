@@ -9,6 +9,8 @@ from Functions.WordGroup import save_word_group
 
 
 class WordSearchThread(QThread):
+    STOP_SIGN = 'STOP!STOP!STOP'
+
     task_finished = Signal(dict, WordGroup)
 
     def __init__(self):
@@ -23,13 +25,16 @@ class WordSearchThread(QThread):
         while self.__running:
             word, word_group = self.__queue.get()
             if word:
-                result = search_word(word)
-                if result:
-                    word_group.update_word(**result)
+                if word == WordSearchThread.STOP_SIGN:
                     save_word_group(word_group)
-                    print('aaaaaa')
-                    self.task_finished.emit(result, word_group)
-                    time.sleep(0.1)
+                    self.task_finished.emit({'word': WordSearchThread.STOP_SIGN}, word_group)
+                else:
+                    result = search_word(word)
+                    if result:
+                        word_group.update_word(**result)
+                        print(f'search {word}')
+                        self.task_finished.emit(result, word_group)
+                        time.sleep(0.01)
 
     def stop(self):
         self.__running = False

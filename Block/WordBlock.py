@@ -41,6 +41,7 @@ class WordBlock:
         self.ui.word_delete_pushButton.clicked.connect(self.word_delete)
         self.ui.word_tableWidget.doubleClicked.connect(self.word_double_clicked)
         self.ui.word_edit_pushButton.clicked.connect(self.word_edit)
+        self.ui.word_search_pushButton.clicked.connect(self.word_search)
 
     def init(self):
         self.word_group_update()
@@ -69,6 +70,7 @@ class WordBlock:
     def word_group_delete(self):
         if self.word_group:
             delete_word_group(self.word_group.get_group_name())
+            self.word_group = None
             self.word_group_update()
 
     def word_group_rename(self):
@@ -123,11 +125,11 @@ class WordBlock:
 
     def word_insert(self, word: str, word_data: dict):
         row_count = self.ui.word_tableWidget.rowCount()
+        print(row_count, word_data)
         self.ui.word_tableWidget.insertRow(row_count)
         self.word_update_row(row_count, word, **word_data)
 
-
-    def word_update_row(self, row_count:int,word:str, part:str, meaning:str, example:str, symbol:str, **kwargs):
+    def word_update_row(self, row_count: int, word: str, part: str, meaning: str, example: str, symbol: str, audio: str):
         self.ui.word_tableWidget.setItem(row_count, 0, QTableWidgetItem(word))
         self.ui.word_tableWidget.setItem(row_count, 1, QTableWidgetItem(part))
         self.ui.word_tableWidget.setItem(row_count, 2, QTableWidgetItem(meaning))
@@ -137,14 +139,12 @@ class WordBlock:
         play_button.clicked.connect(lambda: self.word_play_audio(word))
         self.ui.word_tableWidget.setCellWidget(row_count, 4, play_button)
 
-
     def word_new(self):
         while True:
             word, ok = QInputDialog.getText(self.ui, "New word", "Enter the word:")
             if ok:
                 if word:
                     self.word_group.add_word(word)
-                    self.word_search_thread.add_word(word, self.word_group)
                     break
                 else:
                     QMessageBox.warning(self.ui, "Warning", "Please enter the word")
@@ -159,6 +159,15 @@ class WordBlock:
             for i in range(len(selected_rows)):
                 self.word_group.delete_word(self.ui.word_tableWidget.item(selected_rows[i] - i, 0).text())
                 self.ui.word_tableWidget.removeRow(selected_rows[i] - i)
+
+    def word_search(self):
+        selected_indexes = self.ui.word_tableWidget.selectionModel().selectedIndexes()
+        if selected_indexes:
+            selected_rows = sorted(set(index.row() for index in selected_indexes))
+            for row in selected_rows:
+                word = self.ui.word_tableWidget.item(row, 0).text()
+                self.word_search_thread.add_word(word, self.word_group)
+            self.word_search_thread.add_word(WordSearchThread.STOP_SIGN, self.word_group)
 
     def word_edit(self, part: str | bool = False):
         selected_indexes = self.ui.word_tableWidget.selectionModel().selectedIndexes()
@@ -175,10 +184,10 @@ class WordBlock:
         column = index.column()
         self.word_edit(['word', 'part', 'meaning', 'example', 'symbol', 'audio'][column])
 
-    def word_search_finished(self, data: dict, word_group:WordGroup):
-        if word_group is self.word_group:
-            index = list(self.word_group.get_all_data().keys()).index(data['word'])
-            self.word_update_row(index, **data)
+    def word_search_finished(self, data: dict, word_group: WordGroup):
+        if data['word'] == WordSearchThread.STOP_SIGN:
+            if word_group is self.word_group:
+                self.word_update()
 
     def word_play_audio(self, word: str):
         pygame.mixer.music.load(f'./data/audio/{word}.mp3')
