@@ -39,7 +39,6 @@ def save_word_group(word_group: WordGroup) -> None:
     data = []
     for word, word_data in word_group.get_all_data().items():
         data.append(word_data.get_all_data())
-    print(data)
     write_csv(f'./data/words/{word_group.get_group_name()}.csv', data)
 
 

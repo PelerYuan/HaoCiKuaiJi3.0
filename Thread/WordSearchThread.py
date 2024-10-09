@@ -32,7 +32,6 @@ class WordSearchThread(QThread):
                     result = search_word(word)
                     if result:
                         word_group.update_word(result)
-                        print(f'search {word}')
                         self.task_finished.emit(result, word_group)
                         time.sleep(0.01)
 

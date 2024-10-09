@@ -90,7 +90,7 @@ class WordBlock:
     def word_group_update_data(self):
         if self.word_group:
             for word in self.word_group.get_all_data().keys():
-                self.word_search_thread.add_word(word)
+                self.word_search_thread.add_word(word, self.word_group)
 
     def word_group_import_2v(self):
         options = QFileDialog.Options()
@@ -131,7 +131,6 @@ class WordBlock:
 
     def word_insert(self, word: str, word_data: WordData):
         row_count = self.ui.word_tableWidget.rowCount()
-        print(row_count, word_data)
         self.ui.word_tableWidget.insertRow(row_count)
         self.word_update_row(row_count, word_data)
 
