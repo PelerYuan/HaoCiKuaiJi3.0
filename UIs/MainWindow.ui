@@ -40,7 +40,7 @@
            </size>
           </property>
           <property name="title">
-           <string>Word Group </string>
+           <string>WordData Group </string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
@@ -100,7 +100,7 @@
             </attribute>
             <column>
              <property name="text">
-              <string>Word</string>
+              <string>WordData</string>
              </property>
             </column>
             <column>

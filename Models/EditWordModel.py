@@ -2,29 +2,29 @@ import logging
 
 from PySide6.QtWidgets import QDialog
 
+from DataStract.WordData import WordData
 from Views.EditWordDialog import Ui_Dialog
 
 
 class EditWordModel(Ui_Dialog, QDialog):
-    def __init__(self, part: str | bool, word: str, word_data: dict, parent=None):
+    def __init__(self, part: str | bool, word: WordData, parent=None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
         self.show()
 
         self.part = part
         self.word = word
-        self.word_data = word_data
 
         self.init()
         self.event_connect()
 
     def init(self):
-        self.word_lineEdit.setText(self.word)
-        self.part_lineEdit.setText(self.word_data['part'])
-        self.meaning_textEdit.setText(self.word_data['meaning'])
-        self.example_textEdit.setText(self.word_data['example'])
-        self.symbol_lineEdit.setText(self.word_data['symbol'])
-        self.audio_lineEdit.setText(self.word_data['audio'])
+        self.word_lineEdit.setText(self.word.get_word())
+        self.part_lineEdit.setText(self.word.get_part())
+        self.meaning_textEdit.setText(self.word.get_word())
+        self.example_textEdit.setText(self.word.get_example())
+        self.symbol_lineEdit.setText(self.word.get_symbol())
+        self.audio_lineEdit.setText(self.word.get_audio())
 
         if self.part == "word":
             self.tabWidget.setCurrentIndex(0)
@@ -53,13 +53,14 @@ class EditWordModel(Ui_Dialog, QDialog):
         ...
 
     def get_data(self):
-        return {
-            'part': self.part_lineEdit.text(),
-            'meaning': self.meaning_textEdit.toPlainText(),
-            'example': self.example_textEdit.toPlainText(),
-            'symbol': self.symbol_lineEdit.text(),
-            'audio': self.audio_lineEdit.text(),
-        }
+        return WordData(
+            word=self.word.get_word(),
+            part=self.part_lineEdit.text(),
+            meaning=self.meaning_textEdit.toPlainText(),
+            example=self.example_textEdit.toPlainText(),
+            symbol=self.symbol_lineEdit.text(),
+            audio=self.audio_lineEdit.text(),
+        )
 
     def exec_(self):
         is_accept = super().exec_()

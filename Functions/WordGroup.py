@@ -1,6 +1,7 @@
 import logging
 import os
 
+from DataStract.WordData import WordData
 from DataStract.WordGroup import WordGroup
 from Functions.CSV import open_csv, write_csv
 
@@ -15,7 +16,7 @@ def open_word_group(group_name: str) -> WordGroup:
     data = open_csv(f'./data/words/{group_name}.csv')
     group = WordGroup(group_name)
     for value in data:
-        group.add_word(**value)
+        group.add_word(WordData(**value))
     return group
 
 

@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QInputDialog, QMessageBox, QTableView, QTableWidge
     QFileDialog
 import pygame
 
+from DataStract.WordData import WordData
 from Functions.WordGroup import *
 from Models.EditWordModel import EditWordModel
 from Thread.WordSearchThread import WordSearchThread
@@ -123,20 +124,20 @@ class WordBlock:
         for word, word_data in self.word_group.get_all_data().items():
             self.word_insert(word, word_data)
 
-    def word_insert(self, word: str, word_data: dict):
+    def word_insert(self, word: str, word_data: WordData):
         row_count = self.ui.word_tableWidget.rowCount()
         print(row_count, word_data)
         self.ui.word_tableWidget.insertRow(row_count)
-        self.word_update_row(row_count, word, **word_data)
+        self.word_update_row(row_count, word_data)
 
-    def word_update_row(self, row_count: int, word: str, part: str, meaning: str, example: str, symbol: str, audio: str):
-        self.ui.word_tableWidget.setItem(row_count, 0, QTableWidgetItem(word))
-        self.ui.word_tableWidget.setItem(row_count, 1, QTableWidgetItem(part))
-        self.ui.word_tableWidget.setItem(row_count, 2, QTableWidgetItem(meaning))
-        self.ui.word_tableWidget.setItem(row_count, 3, QTableWidgetItem(example))
+    def word_update_row(self, row_count: int, word_data:WordData):
+        self.ui.word_tableWidget.setItem(row_count, 0, QTableWidgetItem(word_data.get_word()))
+        self.ui.word_tableWidget.setItem(row_count, 1, QTableWidgetItem(word_data.get_part()))
+        self.ui.word_tableWidget.setItem(row_count, 2, QTableWidgetItem(word_data.get_meaning()))
+        self.ui.word_tableWidget.setItem(row_count, 3, QTableWidgetItem(word_data.get_example()))
 
-        play_button = QPushButton(f"Play {symbol}", self.ui)
-        play_button.clicked.connect(lambda: self.word_play_audio(word))
+        play_button = QPushButton(f"Play {word_data.get_symbol()}", self.ui)
+        play_button.clicked.connect(lambda: self.word_play_audio(word_data.get_word()))
         self.ui.word_tableWidget.setCellWidget(row_count, 4, play_button)
 
     def word_new(self):
@@ -144,13 +145,13 @@ class WordBlock:
             word, ok = QInputDialog.getText(self.ui, "New word", "Enter the word:")
             if ok:
                 if word:
-                    self.word_group.add_word(word)
+                    self.word_group.add_word(WordData(word))
                     break
                 else:
                     QMessageBox.warning(self.ui, "Warning", "Please enter the word")
             else:
                 break
-        self.word_insert(word, self.word_group.get_word_data(word))
+        self.word_insert(word, self.word_group.get_word(word))
 
     def word_delete(self):
         selected_indexes = self.ui.word_tableWidget.selectionModel().selectedIndexes()
@@ -174,11 +175,11 @@ class WordBlock:
         if selected_indexes:
             row = selected_indexes[0].row()
             word = self.ui.word_tableWidget.item(row, 0).text()
-            edit_word_dialog = EditWordModel(part, word, self.word_group.get_word_data(word), self.ui)
+            edit_word_dialog = EditWordModel(part, self.word_group.get_word(word), self.ui)
             result = edit_word_dialog.exec_()
             if result:
-                self.word_group.update_word(word, **result)
-                self.word_update_row(row, word, **result)
+                self.word_group.update_word(word, result)
+                self.word_update_row(row, word, result)
 
     def word_double_clicked(self, index: QModelIndex):
         column = index.column()

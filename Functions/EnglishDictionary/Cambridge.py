@@ -3,6 +3,8 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 
+from DataStract.WordData import WordData
+
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
 }
@@ -49,14 +51,14 @@ def search_word(word: str):
 
         save_audio(word, 'https://dictionary.cambridge.org' + audio_link)
 
-        return {
-            'word': word,
-            'part': list_to_str(parts_of_speech_list),
-            'meaning': list_to_str(chinese_definitions),
-            'example': list_to_str(example_list),
-            'symbol': phonetic_symbol,
-            'audio': 'https://dictionary.cambridge.org' + audio_link
-        }
+        return WordData(
+            word=word,
+            part=list_to_str(parts_of_speech_list),
+            meaning=list_to_str(chinese_definitions),
+            example=list_to_str(example_list),
+            symbol=phonetic_symbol,
+            audio='https://dictionary.cambridge.org' + audio_link
+        )
 
     else:
         logging.log(logging.ERROR, f'Error searching word: {word}, status code: {response.status_code}')

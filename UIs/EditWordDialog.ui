@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Edit Word Data</string>
+   <string>Edit WordData Data</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -27,7 +27,7 @@
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
-          <string>Word</string>
+          <string>WordData</string>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>

@@ -315,13 +315,13 @@ class Ui_MainWindow(object):
         self.word_group_refresh_action.setText(QCoreApplication.translate("MainWindow", u"Refresh", None))
         self.word_group_update_data_action.setText(QCoreApplication.translate("MainWindow", u"Update Data", None))
         self.word_group_import_2v_action.setText(QCoreApplication.translate("MainWindow", u"Import 2.0 Group", None))
-        self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Word Group ", None))
+        self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"WordData Group ", None))
         self.word_new_pushButton.setText(QCoreApplication.translate("MainWindow", u"New", None))
         self.word_edit_pushButton.setText(QCoreApplication.translate("MainWindow", u"Edit", None))
         self.word_delete_pushButton.setText(QCoreApplication.translate("MainWindow", u"Delete", None))
         self.word_search_pushButton.setText(QCoreApplication.translate("MainWindow", u"Search", None))
         ___qtablewidgetitem = self.word_tableWidget.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Word", None));
+        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"WordData", None));
         ___qtablewidgetitem1 = self.word_tableWidget.horizontalHeaderItem(1)
         ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Speech Of Part", None));
         ___qtablewidgetitem2 = self.word_tableWidget.horizontalHeaderItem(2)
