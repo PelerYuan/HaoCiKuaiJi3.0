@@ -2,17 +2,20 @@ import json
 import logging
 import os
 
+from DataStract.WordGroup import WordGroup
 from DataStract.WordTest import WordTest
 from Functions.CSV import write_csv
+from Functions.JSON import write_json
+from Functions.WordGroup import open_word_group
 
 
-def new_test(name: str, group_name: str, time: str, time_spend: str, result: dict):
+def new_word_test(name: str, word_group: WordGroup):
     name = check_name(name)
     with open(f'./data/test/{name}.json', 'w', newline='') as file:
-        word_test = WordTest(name)
-        word_test.set_data(group_name, time, time_spend, result)
-        word_test.save_data()
-        return word_test
+        return WordTest(name, word_group)
+
+def save_word_test(name:str, word_test: WordTest):
+    write_json(f'./data/test/{name}.json', word_test.get_all_data())
 
 
 def get_all_test():

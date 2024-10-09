@@ -7,7 +7,7 @@ from Functions.CSV import open_csv, write_csv
 class WordGroup:
     def __init__(self, group_name):
         self.__group_name = group_name
-        self.__word_data:dict[str, WordData] = {}
+        self.__word_data: dict[str, WordData] = {}
 
     def add_word(self, word: WordData) -> None:
         self.__word_data[word.get_word()] = word
@@ -15,7 +15,7 @@ class WordGroup:
     def delete_word(self, word: str) -> None:
         del self.__word_data[word]
 
-    def update_word(self, word:WordData) -> None:
+    def update_word(self, word: WordData) -> None:
         self.add_word(word)
 
     def get_word(self, word: str) -> WordData:
