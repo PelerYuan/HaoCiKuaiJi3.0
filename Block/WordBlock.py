@@ -130,7 +130,7 @@ class WordBlock:
         self.ui.word_tableWidget.insertRow(row_count)
         self.word_update_row(row_count, word_data)
 
-    def word_update_row(self, row_count: int, word_data:WordData):
+    def word_update_row(self, row_count: int, word_data: WordData):
         self.ui.word_tableWidget.setItem(row_count, 0, QTableWidgetItem(word_data.get_word()))
         self.ui.word_tableWidget.setItem(row_count, 1, QTableWidgetItem(word_data.get_part()))
         self.ui.word_tableWidget.setItem(row_count, 2, QTableWidgetItem(word_data.get_meaning()))
@@ -178,8 +178,8 @@ class WordBlock:
             edit_word_dialog = EditWordModel(part, self.word_group.get_word(word), self.ui)
             result = edit_word_dialog.exec_()
             if result:
-                self.word_group.update_word(word, result)
-                self.word_update_row(row, word, result)
+                self.word_group.update_word(result)
+                self.word_update_row(row, result)
 
     def word_double_clicked(self, index: QModelIndex):
         column = index.column()
