@@ -14,7 +14,8 @@ def new_word_test(name: str, word_group: WordGroup):
     with open(f'./data/test/{name}.json', 'w', newline='') as file:
         return WordTest(name, word_group)
 
-def save_word_test(name:str, word_test: WordTest):
+
+def save_word_test(name: str, word_test: WordTest):
     write_json(f'./data/test/{name}.json', word_test.get_all_data())
 
 

@@ -6,7 +6,10 @@ from Functions.JSON import write_json, open_json
 
 
 class WordTest:
-    def __init__(self, name: str, word_group: WordGroup, time:float, time_spend:float, correct_percentage:float, result:doct ):
+    def __init__(self, name: str, word_group: WordGroup, time: float = 0, time_spend: float = 0,
+                 correct_percentage: float = 0, result=None):
+        if result is None:
+            result = {}
         self.__name = name
         self.__word_group = word_group
         self.__time: float = 0
