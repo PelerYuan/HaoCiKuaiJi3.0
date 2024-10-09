@@ -1,24 +1,24 @@
 import logging
 import random
+import time
 
 from PySide6.QtGui import QTextCursor
 from PySide6.QtWidgets import QDialog
 
 from DataStract.WordGroup import WordGroup
+from DataStract.WordTest import WordTest
 from Views.TestWordDialog import Ui_Dialog
 
 
 class TestWordModel(Ui_Dialog, QDialog):
-    def __init__(self, group: WordGroup, parent=None):
+    def __init__(self, word_test: WordTest, parent=None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
         self.show()
 
-        self.group = group
-        self.dictionary = group.get_meaning_dict()
+        self.dictionary = word_test.get_word_group().get_meaning_dict()
+        self.begin_time = time.time()
         self.words = list(self.dictionary.keys())
-
-        self.marks = {}
         self.word = ""
 
         self.init()

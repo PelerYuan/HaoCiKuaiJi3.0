@@ -38,10 +38,10 @@ class TestBlock:
         if len(group.get_all_data()) > 5:
             name = self.ui.test_new_lineEdit.text()
             if name:
-                test_dialog = TestWordModel(group, self.ui)
+                word_test = new_word_test(name, group)
+                test_dialog = TestWordModel(word_test, self.ui)
                 result = test_dialog.exec_()
                 if result:
-                    word_test = new_word_test(name, group)
                     test_result_dialog = TestResultModel(word_test, self.ui)
                     test_result_dialog.exec_()
         else:
@@ -49,14 +49,14 @@ class TestBlock:
 
     def show_test_result(self, row, column):
         item = self.ui.test_history_tableWidget.item(row, 1)
-        test_result_dialog = TestResultModel(WordTest(item.text()), self.ui)
+        test_result_dialog = TestResultModel(WordTest(item.text(), ), self.ui)
         test_result_dialog.exec_()
 
     def load_test_history(self):
         self.ui.test_history_tableWidget.setRowCount(0)
         self.ui.test_history_tableWidget.clearContents()
         for test in get_all_test():
-            word_test_data = WordTest(test).get_data()
+            word_test_data = WordTest(test, ).get_data()
             row_count = self.ui.test_history_tableWidget.rowCount()
             self.ui.test_history_tableWidget.insertRow(row_count)
             self.ui.test_history_tableWidget.setItem(row_count, 0, QTableWidgetItem(word_test_data['group_name']))
